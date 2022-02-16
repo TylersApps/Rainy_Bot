@@ -1,5 +1,5 @@
 # Rainy Bot
-Rainy Bot is my personal Discord bot that I use in servers I am admin/owner of.
+Rainy Bot is my personal Discord bot that I use in my servers.
 
 ## Planned Commands
 - `/random <subreddit>` gets a random post from a specific subreddit.
