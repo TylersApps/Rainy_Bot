@@ -1,5 +1,6 @@
 # Rainy Bot
 Rainy Bot is a multi-use Discord bot that I use in my servers.
+
 Made with [Disnake](https://docs.disnake.dev/en/latest/)!
 
 ## Planned Commands
