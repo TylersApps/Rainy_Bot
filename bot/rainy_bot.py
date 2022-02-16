@@ -1,19 +1,26 @@
 import colorama
-import discord
 import config
+import disnake
+from disnake.ext import commands
 
-# ERROR - AttributeError: module 'discord' has no attribute 'Bot'
 
-client = discord.Client()
-bot = discord.Bot()
+client = disnake.Client()
+bot = commands.Bot(
+    command_prefix='!',
+    test_guilds=[123456789], # Optional
+    sync_commands_debug=True
+)
+
 
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
 
-# @bot.slash_command(guild_ids=[606310746070056991])
-# async def hello(ctx):
-#     await ctx.respond("Hello!")
+
+# NEEDS FURTHER TESTING
+@bot.slash_command(description='Responds with list of available commands.')
+async def help(inter):
+    await inter.response.send_message("Test successful!")
 
 
 
