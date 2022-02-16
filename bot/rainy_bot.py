@@ -1,6 +1,6 @@
 import colorama
-import os
 import discord
+import config
 
 # ERROR - AttributeError: module 'discord' has no attribute 'Bot'
 
@@ -11,10 +11,10 @@ bot = discord.Bot()
 async def on_ready():
     print(f'We have logged in as {client.user}')
 
-@bot.slash_command(guild_ids=[606310746070056991])
-async def hello(ctx):
-    await ctx.respond("Hello!")
+# @bot.slash_command(guild_ids=[606310746070056991])
+# async def hello(ctx):
+#     await ctx.respond("Hello!")
 
 
 
-client.run('OTQzMzg5MTU3NTcxNTY3NjM2.YgyVng.Jb3K794ZNddRxCSTtqd4GlSvfJc')
+client.run(config.cfg['token'])
