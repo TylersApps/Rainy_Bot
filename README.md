@@ -5,7 +5,7 @@ Rainy Bot is a multi-use Discord bot that I use in my servers. It has many funct
 
 ### Current
 - `/help` displays a list of all available commands (different list for admins and non-admins).
-- `/randompost <subreddit_name>` gets a random post from a specific subreddit.
+- `/randompost <subreddit_name>` gets a random post from the specified subreddit.
 
 ### Planned
 - `/define <word>` defines the word passed in using Merriam-Webster's [dictionary API](https://dictionaryapi.com/)
