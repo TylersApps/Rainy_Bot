@@ -5,6 +5,8 @@ from nextcord.ext import commands
 from colorama import Fore, Style, init
 import asyncpraw
 import random
+import json
+import aiohttp, asyncio
 
 from config import reddit, cfg
 
@@ -16,7 +18,7 @@ BLU = Fore.BLUE
 RED = Fore.RED
 RES = Style.RESET_ALL
 
-
+# Initialize bot
 bot = commands.Bot(command_prefix="!", intents=nextcord.Intents.all() )
 
 test_guild_id = cfg['guild_id']
@@ -92,9 +94,11 @@ async def randompost(interaction: Interaction, subreddit_name: str = SlashOption
     )
     embed.set_author(name=f'r/{submission.subreddit}', url=f'https://www.reddit.com/r/{submission.subreddit}')
 
-    # Send embed to channel
-    await interaction.followup.send(embed=embed) 
+    if url.endswith('.jpg') or url.endswith('.png') or url.endswith('.jpeg'):
+        embed.set_image(url=url)
 
+    # Send embed to channel
+    await interaction.followup.send(embed=embed)
 
 
 bot.run(cfg['token'])
