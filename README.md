@@ -9,7 +9,7 @@ Rainy Bot is a multi-use Discord bot that I use in my servers. It has many funct
 - `/roll <(x)D(y)>` rolls x dice with y sides (e.g. "/roll 4d6" rolls 4 6-sded dice)
 
 ## Built With
-- [Disnake](https://docs.disnake.dev/en/latest/) - Discord API Wrapper
+- [Nextcord](https://nextcord.readthedocs.io/) - Discord API Wrapper
 - [Colorama](https://pypi.org/project/colorama/) - Colorful console outputs
 - [Async PRAW](https://asyncpraw.readthedocs.io/en/stable/code_overview/models/subreddit.html) - Asynchronous Reddit API Wrapper
 
