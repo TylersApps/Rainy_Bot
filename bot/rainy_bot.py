@@ -37,7 +37,7 @@ async def help(interaction: Interaction):
         title='Rainy Bot Commands',
         description='\
             `/help` displays a list of all available commands\n\
-            `/randompost <subreddit name>` gets a random post from a specific subreddit.',
+            `/randompost <subreddit_name>` gets a random post from a specific subreddit.',
         color=embed_color
     )
 
