@@ -10,8 +10,8 @@ Rainy Bot is a multi-use Discord bot that I use in my servers. It has many funct
 
 ## Built With
 - [Nextcord](https://nextcord.readthedocs.io/) - Discord API Wrapper
-- [Colorama](https://pypi.org/project/colorama/) - Colorful console outputs
 - [Async PRAW](https://asyncpraw.readthedocs.io/en/stable/code_overview/models/subreddit.html) - Asynchronous Reddit API Wrapper
+- [Colorama](https://pypi.org/project/colorama/) - Colorful console outputs
 
 ## Contributors
 - Tyler Holley
