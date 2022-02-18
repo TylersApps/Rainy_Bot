@@ -195,12 +195,8 @@ async def roll(interaction: Interaction, dice: str=SlashOption(description="Spec
             embed.add_field(name=f'Roll {x + 1}', value=f'{this_roll}', inline=True)
 
         # Update embed with dice and total
-        embed.title = f'Rolled {dice}'
-        embed.description = f'Dice total: **{total}**'
-        embed.set_thumbnail(
-            url='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/game-die_1f3b2.png'
-        )
-    
+        embed.title = f'{dice} | Total = {total}'
+        
     
     # Send embed
     await interaction.response.send_message(embed=embed)
