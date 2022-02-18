@@ -179,35 +179,34 @@ async def roll(interaction: Interaction, dice: str=SlashOption(description="Spec
     dice_split = dice.split('d')
     total = 0
 
-    # Initialize embed with default embed color
-    embed = nextcord.Embed(color=embed_color)
-    embed.set_thumbnail(
-        url='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/game-die_1f3b2.png'
-    )
-
-    # Check for invalid input
+    # Check for invalid input format
     if len(dice_split) != 2 or dice.isalpha() or dice.isnumeric():
-        embed.title='Invalid input'
-        embed.description='`dice` input should be formatted like **2d20** or **1d4**'
-        embed.color=error_color
-
+        error_embed.description='`dice` input should be formatted like **2d20** or **1d4**'
+        await interaction.response.send_message(embed=error_embed)
         print(f'{RED}Invalid dice input{RES}')
+        return
     else:
         num_rolls = int(dice_split[0])
         num_sides = int(dice_split[1])
 
-        # Roll dice and get total of all rolls
         for x in range(num_rolls):
-            total += randint(0, num_sides)
+            this_roll = randint(1, num_sides + 1)
+            total += this_roll
+            embed.add_field(name=f'Roll {x + 1}', value=f'{this_roll}', inline=True)
 
         # Update embed with dice and total
         embed.title = f'Rolled {dice}'
-        embed.description = f'Outcome: **{total}**'
-
-        print(f'Rolled {YLW}{dice}{RES} for a total of {YLW}{total}{RES}!')
+        embed.description = f'Dice total: **{total}**'
+        embed.set_thumbnail(
+            url='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/game-die_1f3b2.png'
+        )
     
-
+    
+    # Send embed
     await interaction.response.send_message(embed=embed)
+
+    # Send confirmation message
+    print(f'Rolled {YLW}{dice}{RES} for a total of {YLW}{total}{RES}!')
     
 
 
