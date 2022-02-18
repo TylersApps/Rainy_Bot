@@ -20,7 +20,7 @@ YLW = Fore.YELLOW
 RES = Style.RESET_ALL
 
 # Initialize bot
-bot = commands.Bot(command_prefix="!", intents=nextcord.Intents.all() )
+bot = commands.Bot(command_prefix="~", intents=nextcord.Intents.all() )
 
 test_guild_id = cfg['guild_id']
 embed_color = nextcord.Colour.from_rgb(47, 49, 54)
@@ -42,7 +42,8 @@ async def help(interaction: Interaction):
         description='\
             `/help` - display a list of available commands\n\
             `/randompost <subreddit_name>` - get random post from subreddit\n\
-            `/roll <(x)d(y)>` - rolls x dice, each with y sides',
+            `/roll <(x)d(y)>` - rolls x dice, each with y sides\n\
+            `/define <word>` - define a word (English only)',
         color=embed_color
     )
 
@@ -103,6 +104,9 @@ async def randompost(interaction: Interaction, subreddit_name: str = SlashOption
         embed.set_image(url=url)
 
     # Send embed to channel
+    # embed.set_thumbnail(
+    #     url='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/alien_1f47d.png'
+    # )
     await interaction.followup.send(embed=embed) 
 
     # Send confirmation message
@@ -115,11 +119,7 @@ async def define(interaction: Interaction, word: str = SlashOption(description="
     print(f'{CY}Define{RES} command used!')
 
     api_url = f"http://api.dictionaryapi.dev/api/v2/entries/en/{word}"
-
-    embed = nextcord.Embed(
-        color=embed_color,
-        title=f'Definition of "{word.lower()}":',
-    )
+    embed = nextcord.Embed(color=embed_color)
 
     # Get the json data for the specified word
     try:
@@ -130,12 +130,37 @@ async def define(interaction: Interaction, word: str = SlashOption(description="
         print(f'{RED}[ERROR]: {ex}{RES}')
         return
     
-    content = data[0]['meanings']
+    try:
+        content = data[0]['meanings']
+    except KeyError: # Send error embed if the word isn't found
+        embed.title='Invalid input'
+        embed.description='Word not found in dictionary.'
+        embed.color=error_color
+        await interaction.response.send_message(embed=embed)
+        print(f'{RED}Word not found in dictionary.{RES}')
+        return
 
+    
+    # Add title to definition embed    
+    embed.title=f'"{word.lower().capitalize()}"'
+    embed.set_thumbnail(
+        url='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/open-book_1f4d6.png'
+    )
+
+    # Iterate through and create fields
     for item in content:
-        print(item['definitions'][0])
+        part_of_speech = item['partOfSpeech']
+        combined_definitions = ''
+
+        for subitem in item['definitions'][:3]:
+            definition = subitem['definition']
+            definition_index = item['definitions'][:3].index(subitem) + 1
+            combined_definitions += f"{definition_index}. {definition}\n"
+        
+        embed.add_field(name=part_of_speech.upper(), value=combined_definitions, inline=False)
 
 
+    # Send embed
     await interaction.response.send_message(embed=embed)
     
     # Send confirmation message
@@ -154,6 +179,9 @@ async def roll(interaction: Interaction, dice: str=SlashOption(description="Spec
 
     # Initialize embed with default embed color
     embed = nextcord.Embed(color=embed_color)
+    embed.set_thumbnail(
+        url='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/game-die_1f3b2.png'
+    )
 
     # Check for invalid input
     if len(dice_split) != 2 or dice.isalpha() or dice.isnumeric():
@@ -175,7 +203,7 @@ async def roll(interaction: Interaction, dice: str=SlashOption(description="Spec
         embed.description = f'Outcome: **{total}**'
 
         print(f'Rolled {YLW}{dice}{RES} for a total of {YLW}{total}{RES}!')
-
+    
 
     await interaction.response.send_message(embed=embed)
     
