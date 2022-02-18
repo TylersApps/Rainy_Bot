@@ -31,5 +31,4 @@ This project is licensed under the **MIT License** - see the [LICENSE.md](LICENS
 
 ## Acknowledgements
 Inspired by:
-
 - [WoodyBot](https://github.com/Milesnocte/WoodyBot) by Milesnocte
