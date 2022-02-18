@@ -190,7 +190,7 @@ async def roll(interaction: Interaction, dice: str=SlashOption(description="Spec
         num_sides = int(dice_split[1])
 
         for x in range(num_rolls):
-            this_roll = randint(1, num_sides + 1)
+            this_roll = randint(1, num_sides)
             total += this_roll
             embed.add_field(name=f'Roll {x + 1}', value=f'{this_roll}', inline=True)
 
