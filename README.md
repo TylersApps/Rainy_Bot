@@ -10,14 +10,15 @@ Rainy Bot is a multi-use Discord bot that I use in my servers. It has many funct
 - `/roll <(x)d(y)>` rolls x dice with y sides (e.g. "/roll 4d6" rolls four 6-sded dice)
 
 ### Planned
-- `/define <word>` defines the word passed in using Merriam-Webster's [dictionary API](https://dictionaryapi.com/)
+- `/define <word>` defines the word passed in using the [free dictionary API](https://dictionaryapi.dev/)
 - `/menu <type>` sends the specified menu type to the channel where the command was sent.
 
 
 ## Built With
-- [Nextcord](https://nextcord.readthedocs.io/) - Discord API Wrapper
-- [Async PRAW](https://asyncpraw.readthedocs.io/en/stable/code_overview/models/subreddit.html) - Asynchronous Reddit API Wrapper
+- [Nextcord](https://nextcord.readthedocs.io/) - Discord API wrapper
+- [Async PRAW](https://asyncpraw.readthedocs.io/en/stable/code_overview/models/subreddit.html) - Asynchronous Reddit API wrapper
 - [Colorama](https://pypi.org/project/colorama/) - Colorful console outputs
+- [AIOHTTP](https://docs.aiohttp.org/en/stable/) - Asynchronous web scraping
 
 
 ## Contributors
