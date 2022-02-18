@@ -40,9 +40,9 @@ async def help(interaction: Interaction):
     embed = nextcord.Embed(
         title='Rainy Bot Commands',
         description='\
-            `/help` - display a list of all available commands\n\
-            `/randompost <subreddit_name>` - get a random post from subreddit\n\
-            `/roll <(x)d(y)>` - rolls one or more dice',
+            `/help` - display a list of available commands\n\
+            `/randompost <subreddit_name>` - get random post from subreddit\n\
+            `/roll <(x)d(y)>` - rolls x dice, each with y sides',
         color=embed_color
     )
 
