@@ -46,6 +46,8 @@ async def help(interaction: Interaction):
         color=embed_color
     )
 
+    embed.set_thumbnail(url='https://i.imgur.com/bhbTUOe.png')
+
     await interaction.response.send_message(embed=embed)
 
 
