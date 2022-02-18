@@ -30,7 +30,7 @@ error_embed = nextcord.Embed(
     title='Error',
     color=error_color
 )
-embed = nextcord.Embed(color=embed_color)
+embed_template = nextcord.Embed(color=embed_color)
 
 # Sends a message to console when bot is online in server(s).
 @bot.event
@@ -43,20 +43,20 @@ async def on_ready():
 async def help(interaction: Interaction):
     print(f'{CY}Help{RES} command used!')
 
-    embed = nextcord.Embed(
-        title='Rainy Bot Commands',
-        description='\
-            `/help` - display a list of available commands\n\
-            `/randompost <subreddit_name>` - get random post from subreddit\n\
-            `/roll <(x)d(y)>` - rolls x dice, each with y sides\n\
-            `/define <word>` - define a word (English only)',
-        color=embed_color
-    )
+    embed = embed_template.copy()
 
+    embed.description = '\
+            `/help`\n Display a list of available commands\n\n\
+            `/randompost <subreddit_name>`\n Get random post from subreddit\n\n\
+            `/roll <(x)d(y)>`\n Roll x dice, each with y sides\n\n\
+            `/define <word>`\n Define a word (English only)'
+
+    embed.title = 'Rainy Bot Commands'
+    embed.color = nextcord.Colour.from_rgb(65, 157, 193)
     embed.set_thumbnail(url='https://i.imgur.com/bhbTUOe.png')
 
     await interaction.response.send_message(embed=embed)
-
+    
 
 # Send a random post from specified subreddit as an embed
 @bot.slash_command(guild_ids=[test_guild_id], description='Get a random post from a subreddit')
@@ -98,6 +98,7 @@ async def randompost(interaction: Interaction, subreddit_name: str = SlashOption
 
 
     # Customize embed
+    embed = embed_template.copy()
     embed.title = title
     embed.url = permalink
     embed.description = post_body
@@ -110,11 +111,11 @@ async def randompost(interaction: Interaction, subreddit_name: str = SlashOption
 
 
     # Send embed
-    await interaction.followup.send(embed=embed) 
+    await interaction.followup.send(embed=embed)
 
     # Send confirmation message
     print(f'Sent post from {YLW}{submission.subreddit}{RES}: {submission.title}')
-
+    
 
 # Send the definition of the specified word
 @bot.slash_command(guild_ids=[test_guild_id], description='Get the definition of a word')
@@ -144,6 +145,7 @@ async def define(interaction: Interaction, word: str = SlashOption(description="
 
     
     # Customize embed with title and thumbnail   
+    embed = embed_template.copy()
     embed.title=f'"{word.lower().capitalize()}"'
     embed.set_thumbnail(
         url='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/open-book_1f4d6.png'
@@ -178,6 +180,7 @@ async def roll(interaction: Interaction, dice: str=SlashOption(description="Spec
     dice = dice.lower()
     dice_split = dice.split('d')
     total = 0
+    embed = embed_template.copy()
 
     # Check for invalid input format
     if len(dice_split) != 2 or dice.isalpha() or dice.isnumeric():
@@ -196,7 +199,7 @@ async def roll(interaction: Interaction, dice: str=SlashOption(description="Spec
 
         # Update embed with dice and total
         embed.title = f'{dice} | Total = {total}'
-        
+
     
     # Send embed
     await interaction.response.send_message(embed=embed)
