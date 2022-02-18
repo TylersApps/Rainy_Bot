@@ -26,6 +26,12 @@ test_guild_id = cfg['guild_id']
 embed_color = nextcord.Colour.from_rgb(47, 49, 54)
 error_color = nextcord.Colour.from_rgb(217, 95, 87)
 
+error_embed = nextcord.Embed(
+    title='Error',
+    color=error_color
+)
+embed = nextcord.Embed(color=embed_color)
+
 # Sends a message to console when bot is online in server(s).
 @bot.event
 async def on_ready():
@@ -62,18 +68,17 @@ async def randompost(interaction: Interaction, subreddit_name: str = SlashOption
     if subreddit_name.startswith(('/r/', 'r/')):
         subreddit_name = subreddit_name.split('r/')[-1]
     
+
     # If specified subreddit doesn't exist, send error embed.
     try:
         subreddit = await reddit.subreddit(subreddit_name, fetch=True)
     except Exception: 
-        embed = nextcord.Embed(
-            title='Invalid input',
-            description=f"r/{subreddit_name} doesn't exist.",
-            color=error_color
-        )
-        await interaction.followup.send(embed=embed)
+        error_embed.description=f"r/{subreddit_name} doesn't exist.",
+
+        await interaction.followup.send(embed=error_embed)
         print(f'{RED}Invalid subreddit input{RES}')
         return
+
 
     # Initialize submission and url variables
     submission = await subreddit.random()
@@ -91,22 +96,20 @@ async def randompost(interaction: Interaction, subreddit_name: str = SlashOption
         post_body = post_body[:497]
         post_body += " ..." 
 
-    # Create embed
-    embed = nextcord.Embed(
-        title=title,
-        url=permalink,
-        description=post_body,
-        color=embed_color
-    )
+
+    # Customize embed
+    embed.title = title
+    embed.url = permalink
+    embed.description = post_body
     embed.set_author(name=f'r/{submission.subreddit}', url=f'https://www.reddit.com/r/{submission.subreddit}')
-
-    if url.endswith('.jpg') or url.endswith('.png') or url.endswith('.jpeg'):
+    if url.endswith('.jpg') or url.endswith('.png') or url.endswith('.jpeg'): 
         embed.set_image(url=url)
-
-    # Send embed to channel
     # embed.set_thumbnail(
     #     url='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/alien_1f47d.png'
     # )
+
+
+    # Send embed
     await interaction.followup.send(embed=embed) 
 
     # Send confirmation message
@@ -119,7 +122,6 @@ async def define(interaction: Interaction, word: str = SlashOption(description="
     print(f'{CY}Define{RES} command used!')
 
     api_url = f"http://api.dictionaryapi.dev/api/v2/entries/en/{word}"
-    embed = nextcord.Embed(color=embed_color)
 
     # Get the json data for the specified word
     try:
@@ -127,21 +129,21 @@ async def define(interaction: Interaction, word: str = SlashOption(description="
             async with session.get(api_url, ssl=False) as resp:
                 data = await resp.json()
     except Exception as ex: 
+        error_embed.description = f'API Error. Please contact developer.'
+        await interaction.response.send_message(embed=error_embed) 
         print(f'{RED}[ERROR]: {ex}{RES}')
         return
     
     try:
         content = data[0]['meanings']
     except KeyError: # Send error embed if the word isn't found
-        embed.title='Invalid input'
-        embed.description='Word not found in dictionary.'
-        embed.color=error_color
-        await interaction.response.send_message(embed=embed)
-        print(f'{RED}Word not found in dictionary.{RES}')
+        error_embed.description = f'Can\'t find "{word}" in dictionary'
+        await interaction.response.send_message(embed=error_embed)
+        print(f'{RED}Can\'t find "{word}" in dictionary.{RES}')
         return
 
     
-    # Add title to definition embed    
+    # Customize embed with title and thumbnail   
     embed.title=f'"{word.lower().capitalize()}"'
     embed.set_thumbnail(
         url='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/open-book_1f4d6.png'
