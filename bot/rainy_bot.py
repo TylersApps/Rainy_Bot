@@ -158,7 +158,7 @@ async def roll(interaction: Interaction, dice: str=SlashOption(description="Spec
     # Check for invalid input
     if len(dice_split) != 2 or dice.isalpha() or dice.isnumeric():
         embed.title='Invalid input'
-        embed.description='`dice` input should be formatted like **2D20** or **1D4**'
+        embed.description='`dice` input should be formatted like **2d20** or **1d4**'
         embed.color=error_color
 
         print(f'{RED}Invalid dice input{RES}')
