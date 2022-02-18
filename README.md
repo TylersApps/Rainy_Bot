@@ -18,7 +18,7 @@ Rainy Bot is a multi-use Discord bot that I use in my servers. It has several ra
 - [Nextcord](https://nextcord.readthedocs.io/) - Discord API wrapper
 - [Async PRAW](https://asyncpraw.readthedocs.io/en/stable/code_overview/models/subreddit.html) - Asynchronous Reddit API wrapper
 - [Colorama](https://pypi.org/project/colorama/) - Colorful console outputs
-- [AIOHTTP](https://docs.aiohttp.org/en/stable/) - Asynchronous HTTP Client/Server for asyncio and Python
+- [AIOHTTP](https://docs.aiohttp.org/en/stable/) - Asynchronous HTTP Client/Server
 
 
 ## Contributors
