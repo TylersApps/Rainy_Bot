@@ -7,7 +7,7 @@ Rainy Bot is a multi-use Discord bot that I use in my servers. It has many funct
 ### Current
 - `/help` displays a list of all available commands (different list for admins and non-admins).
 - `/randompost <subreddit_name>` gets a random post from the specified subreddit.
-- `/roll <(x)d(y)>` rolls x dice with y sides (e.g. "/roll 4d6" rolls 4 6-sded dice)
+- `/roll <(x)d(y)>` rolls x dice with y sides (e.g. "/roll 4d6" rolls four 6-sded dice)
 
 ### Planned
 - `/define <word>` defines the word passed in using Merriam-Webster's [dictionary API](https://dictionaryapi.com/)
