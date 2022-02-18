@@ -38,6 +38,17 @@ async def on_ready():
     print(f'\n{GR}[Logged in as {bot.user}]{RES}')
 
 
+# Function necessary to add link button to help command embed
+class GitHubButton(nextcord.ui.View): ## Format from nextcord examples on GitHub
+    def __init__(self):
+        super().__init__()
+        url = 'https://github.com/tholley7/Rainy_Bot'
+
+        # Link buttons cannot be made with the decorator
+        # Therefore we have to manually create one.
+        # We add the quoted url to the button, and add the button to the view.
+        self.add_item(nextcord.ui.Button(label='GitHub', url=url))
+
 # Send a list of available commands to the channel where this command is sent.
 @bot.slash_command(guild_ids=[test_guild_id], description="Get a list of Rainy Bot's commands")
 async def help(interaction: Interaction):
@@ -55,7 +66,7 @@ async def help(interaction: Interaction):
     embed.color = nextcord.Colour.from_rgb(65, 157, 193)
     embed.set_thumbnail(url='https://i.imgur.com/bhbTUOe.png')
 
-    await interaction.response.send_message(embed=embed)
+    await interaction.response.send_message(embed=embed, view=GitHubButton())
     
 
 # Send a random post from specified subreddit as an embed
@@ -207,6 +218,8 @@ async def roll(interaction: Interaction, dice: str=SlashOption(description="Spec
     # Send confirmation message
     print(f'Rolled {YLW}{dice}{RES} for a total of {YLW}{total}{RES}!')
     
+
+
 
 
 
