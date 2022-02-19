@@ -1,3 +1,4 @@
+from email.policy import default
 import nextcord
 from nextcord import Interaction, SlashOption
 from nextcord.ext import commands
@@ -38,8 +39,8 @@ async def on_ready():
     print(f'\n{GR}[Logged in as {bot.user}]{RES}')
 
 
-# Function necessary to add link button to help command embed
 class GitHubButton(nextcord.ui.View): ## Format from nextcord examples on GitHub
+    """Function necessary to add link button to help command embed"""
     def __init__(self):
         super().__init__()
         url = 'https://github.com/tholley7/Rainy_Bot'
@@ -49,9 +50,9 @@ class GitHubButton(nextcord.ui.View): ## Format from nextcord examples on GitHub
         # We add the quoted url to the button, and add the button to the view.
         self.add_item(nextcord.ui.Button(label='GitHub', url=url))
 
-# Send a list of available commands to the channel where this command is sent.
 @bot.slash_command(guild_ids=[test_guild_id], description="Get a list of Rainy Bot's commands")
 async def help(interaction: Interaction):
+    """Send a list of available commands to the channel where this command is sent."""
     print(f'{CY}Help{RES} command used!')
 
     embed = embed_template.copy()
@@ -69,9 +70,10 @@ async def help(interaction: Interaction):
     await interaction.response.send_message(embed=embed, view=GitHubButton())
     
 
-# Send a random post from specified subreddit as an embed
+
 @bot.slash_command(guild_ids=[test_guild_id], description='Get a random post from a subreddit')
 async def randompost(interaction: Interaction, subreddit_name: str = SlashOption(description="Subreddit Choice")):
+    """Send a random post from specified subreddit as an embed"""
     await interaction.response.defer()
 
     print(f'{CY}RandomPost{RES} command used!')
@@ -126,11 +128,12 @@ async def randompost(interaction: Interaction, subreddit_name: str = SlashOption
 
     # Send confirmation message
     print(f'Sent post from {YLW}{submission.subreddit}{RES}: {submission.title}')
-    
 
-# Send the definition of the specified word
+
+
 @bot.slash_command(guild_ids=[test_guild_id], description='Get the definition of a word')
 async def define(interaction: Interaction, word: str = SlashOption(description="Word to define")):
+    """Send the definition of the specified word"""
     print(f'{CY}Define{RES} command used!')
 
     api_url = f"http://api.dictionaryapi.dev/api/v2/entries/en/{word}"
@@ -182,9 +185,10 @@ async def define(interaction: Interaction, word: str = SlashOption(description="
     print(f'Sent definition of {YLW}{word}{RES}!')
 
 
-# Roll die or dice based on input
+
 @bot.slash_command(guild_ids=[test_guild_id], description='Roll a specific amount of dice with a specific amount of sides.')
 async def roll(interaction: Interaction, dice: str=SlashOption(description="Specified dice")):
+    """Roll die or dice based on input and send embed with results"""
     print(f'{CY}Roll{RES} command used!')
 
     # Initialize function variables
@@ -217,9 +221,27 @@ async def roll(interaction: Interaction, dice: str=SlashOption(description="Spec
 
     # Send confirmation message
     print(f'Rolled {YLW}{dice}{RES} for a total of {YLW}{total}{RES}!')
-    
 
 
+
+@bot.slash_command(guild_ids=[test_guild_id], description='Command not yet supported', default_permission=False)
+async def notion(interaction: Interaction):
+    """Allow user to edit of notion databases that the user has access to"""
+    print(f'{RED}[Notion command not supported yet.]{RES}')
+
+
+
+@bot.slash_command(guild_ids=[test_guild_id], description='Command not yet supported', default_permission=False)
+async def menu(interaction: Interaction):
+    """Send a menu of the specified type"""
+    print(f'{RED}[Menu command not supported yet.]{RES}')
+
+
+
+@bot.slash_command(guild_ids=[test_guild_id], description='Command not yet supported', default_permission=False)
+async def menu(interaction: Interaction):
+    """Send a menu of the specified type"""
+    print(f'{RED}[Menu command not supported yet.]{RES}')
 
 
 
