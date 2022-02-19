@@ -210,10 +210,7 @@ async def urban(interaction: Interaction):
     print(f'{RED}[NOT SUPPORTED]: Urban command not supported yet.{RES}')
 
 
-# ERRORS TO COVER
-#     Decimal inputs
-#     Negative inputs
-#     1 or more non-numeric characters before or after 'd'
+
 @bot.slash_command(guild_ids=[test_guild_id], description='Roll a specific amount of dice with a specific amount of sides.')
 async def roll(interaction: Interaction, dice: str=SlashOption(description="Specified dice")):
     """Rolls die/dice with NdN format"""
