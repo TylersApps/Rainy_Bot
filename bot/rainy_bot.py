@@ -26,14 +26,15 @@ bot = commands.Bot(command_prefix="~", intents=nextcord.Intents.all() )
 test_guild_id = cfg['guild_id']
 embed_color = nextcord.Colour.from_rgb(47, 49, 54)
 error_color = nextcord.Colour.from_rgb(217, 95, 87)
+brand_color = nextcord.Colour.from_rgb(65, 157, 193)
 
-error_embed = nextcord.Embed(
-    title='Error',
-    color=error_color
-)
+error_template = nextcord.Embed(color=error_color)
 embed_template = nextcord.Embed(color=embed_color)
+upcoming_embed = nextcord.Embed(color=brand_color, title='Feature coming soon', description="That command isn't supported yet.")
 
-# Sends a message to console when bot is online in server(s).
+
+
+
 @bot.event
 async def on_ready():
     print(f'\n{GR}[Logged in as {bot.user}]{RES}')
@@ -64,7 +65,7 @@ async def help(interaction: Interaction):
             `/define <word>`\n Define a word (English only)'
 
     embed.title = 'Rainy Bot Commands'
-    embed.color = nextcord.Colour.from_rgb(65, 157, 193)
+    embed.color = brand_color
     embed.set_thumbnail(url='https://i.imgur.com/bhbTUOe.png')
 
     await interaction.response.send_message(embed=embed, view=GitHubButton())
@@ -86,17 +87,29 @@ async def randompost(interaction: Interaction, subreddit_name: str = SlashOption
     try:
         subreddit = await reddit.subreddit(subreddit_name, fetch=True)
     except Exception: 
-        error_embed.description=f"r/{subreddit_name} doesn't exist.",
+        error_embed = error_template.copy()
+        error_embed.title = 'Invalid input'
+        error_embed.description=f"r/{subreddit_name} doesn't exist."
 
         await interaction.followup.send(embed=error_embed)
         print(f'{RED}Invalid subreddit input{RES}')
         return
 
+    try:
+        submission = await subreddit.random()
+        print(submission)
+        url = submission.url
+        permalink = f'https://www.reddit.com{submission.permalink}'
+    except AttributeError as url_error:
+        error_embed = error_template.copy()
+        error_embed.title = 'Something went wrong'
+        error_embed.description=f"Couldn't get post url"
 
-    # Initialize submission and url variables
-    submission = await subreddit.random()
-    url = submission.url
-    permalink = f'https://www.reddit.com{submission.permalink}'
+        await interaction.followup.send(embed=url_error_embed)
+        print(f'{RED}[ERRROR]: {url_error}{RES}')
+        return
+
+    
 
     # Initialize title and shorten to max 253 characters
     title = submission.title
@@ -144,6 +157,8 @@ async def define(interaction: Interaction, word: str = SlashOption(description="
             async with session.get(api_url, ssl=False) as resp:
                 data = await resp.json()
     except Exception as ex: 
+        error_embed = error_template.copy()
+        error_embed.title = "Word not found"
         error_embed.description = f'API Error. Please contact developer.'
         await interaction.response.send_message(embed=error_embed) 
         print(f'{RED}[ERROR]: {ex}{RES}')
@@ -152,6 +167,8 @@ async def define(interaction: Interaction, word: str = SlashOption(description="
     try:
         content = data[0]['meanings']
     except KeyError: # Send error embed if the word isn't found
+        error_embed = error_template.copy()
+        error_embed.title = "Invalid input"
         error_embed.description = f'Can\'t find "{word}" in dictionary'
         await interaction.response.send_message(embed=error_embed)
         print(f'{RED}Can\'t find "{word}" in dictionary.{RES}')
@@ -186,62 +203,80 @@ async def define(interaction: Interaction, word: str = SlashOption(description="
 
 
 
+@bot.slash_command(guild_ids=[test_guild_id], description='Command not yet supported')
+async def urban(interaction: Interaction):
+    """Define a word or term with Urban Dictionary"""
+    await interaction.response.send_message(embed=upcoming_embed)
+    print(f'{RED}[NOT SUPPORTED]: Urban command not supported yet.{RES}')
+
+
+# ERRORS TO COVER
+#     Decimal inputs
+#     Negative inputs
+#     1 or more non-numeric characters before or after 'd'
 @bot.slash_command(guild_ids=[test_guild_id], description='Roll a specific amount of dice with a specific amount of sides.')
 async def roll(interaction: Interaction, dice: str=SlashOption(description="Specified dice")):
-    """Roll die or dice based on input and send embed with results"""
+    """Rolls die/dice with NdN format"""
     print(f'{CY}Roll{RES} command used!')
 
-    # Initialize function variables
+    # Make dice lowercase
     dice = dice.lower()
-    dice_split = dice.split('d')
-    total = 0
+    
+    # Split input into rolls and sides
+    try:
+        rolls, sides = map(int, dice.split('d'))
+    except Exception as invalid_input:
+        error_embed = error_template.copy()
+        error_embed.title = 'Invalid input'
+        error_embed.description = '`dice` input should be formatted like **NdN**\n\
+            Each N must be a non-negative, non-zero integer'
+        await interaction.response.send_message(embed=error_embed)
+        print(f'{RED}[INVALID]: Incorrect roll input format{RES}')
+        return
+
+    # Send error if sides = 0 
+    if sides == 0:
+        error_embed = error_template.copy()
+        error_embed.title = 'Invalid input'
+        error_embed.description = '`dice` input should be formatted like **NdN**\n\
+            Each N must be a non-negative, non-zero integer'
+        await interaction.response.send_message(embed=error_embed)
+        print(f'{RED}[INVALID]: Sides was 0{RES}')
+        return
+
     embed = embed_template.copy()
 
-    # Check for invalid input format
-    if len(dice_split) != 2 or dice.isalpha() or dice.isnumeric():
-        error_embed.description='`dice` input should be formatted like **2d20** or **1d4**'
-        await interaction.response.send_message(embed=error_embed)
-        print(f'{RED}Invalid dice input{RES}')
-        return
-    else:
-        num_rolls = int(dice_split[0])
-        num_sides = int(dice_split[1])
+    total = 0
+    for r in range(rolls):
+        this_roll = randint(1, sides)
+        total += this_roll
+        embed.add_field(name=f'Roll {r + 1}', value=f'{this_roll}', inline=True)
 
-        for x in range(num_rolls):
-            this_roll = randint(1, num_sides)
-            total += this_roll
-            embed.add_field(name=f'Roll {x + 1}', value=f'{this_roll}', inline=True)
-
-        # Update embed with dice and total
-        embed.title = f'{dice} | Total = {total}'
+    embed.title = f'{dice} | Total = {total}'
 
     
-    # Send embed
+    # Send embed and confirmation output
     await interaction.response.send_message(embed=embed)
-
-    # Send confirmation message
     print(f'Rolled {YLW}{dice}{RES} for a total of {YLW}{total}{RES}!')
 
 
 
-@bot.slash_command(guild_ids=[test_guild_id], description='Command not yet supported', default_permission=False)
+@bot.slash_command(guild_ids=[test_guild_id], description='Command not yet supported')
 async def notion(interaction: Interaction):
     """Allow user to edit of notion databases that the user has access to"""
-    print(f'{RED}[Notion command not supported yet.]{RES}')
+    await interaction.response.send_message(embed=upcoming_embed)
+    print(f'{RED}[NOT SUPPORTED]: Notion command not supported yet.{RES}')
 
 
 
-@bot.slash_command(guild_ids=[test_guild_id], description='Command not yet supported', default_permission=False)
+@bot.slash_command(guild_ids=[test_guild_id], description='Command not yet supported')
 async def menu(interaction: Interaction):
     """Send a menu of the specified type"""
-    print(f'{RED}[Menu command not supported yet.]{RES}')
+    await interaction.response.send_message(embed=upcoming_embed)
+    print(f'{RED}[NOT SUPPORTED]: Menu command not supported yet.{RES}')
 
 
 
-@bot.slash_command(guild_ids=[test_guild_id], description='Command not yet supported', default_permission=False)
-async def menu(interaction: Interaction):
-    """Send a menu of the specified type"""
-    print(f'{RED}[Menu command not supported yet.]{RES}')
 
 
 
