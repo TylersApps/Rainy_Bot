@@ -13,6 +13,7 @@ Rainy Bot is a multi-use Discord bot that I use in my servers. It has several ra
 ### Planned
 - `/menu <type>` sends the specified menu type to the channel where the command was sent.
 - `/urban <word>` defines the word with Urban Dictionary
+- `/notion` to interface with notion through Discord
 
 
 ## Built With
