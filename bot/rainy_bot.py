@@ -86,9 +86,9 @@ async def randompost(interaction: Interaction, subreddit_name: str = SlashOption
     # If specified subreddit doesn't exist, send error embed.
     try:
         subreddit = await reddit.subreddit(subreddit_name, fetch=True)
-    except Exception: 
+    except Exception as invalid_subreddit: 
         error_embed = error_template.copy()
-        error_embed.title = 'Invalid input'
+        error_embed.title = 'Invalid subreddit'
         error_embed.description=f"r/{subreddit_name} doesn't exist."
 
         await interaction.followup.send(embed=error_embed)
@@ -97,19 +97,28 @@ async def randompost(interaction: Interaction, subreddit_name: str = SlashOption
 
     try:
         submission = await subreddit.random()
-        print(submission)
-        url = submission.url
-        permalink = f'https://www.reddit.com{submission.permalink}'
-    except AttributeError as url_error:
+        print(f'{GR}GRABBED SUBMISSION:{RES} {submission}')
+    except Exception as ex:
         error_embed = error_template.copy()
         error_embed.title = 'Something went wrong'
-        error_embed.description=f"Couldn't get post url"
+        error_embed.description=f"Couldn't get post"
 
-        await interaction.followup.send(embed=url_error_embed)
-        print(f'{RED}[ERRROR]: {url_error}{RES}')
+        await interaction.followup.send(embed=error_embed)
+        print(f'{RED}[ERRROR]: {ex}{RES}')
         return
 
-    
+    if submission == None:
+        error_embed = error_template.copy()
+        error_embed.title = 'Subreddit unsupported'
+        error_embed.description=f"That subreddit doesn't allow grabbing random posts"
+
+        await interaction.followup.send(embed=error_embed)
+        print(f"{RED}[SUBREDDIT UNSUPPORTED]: r/{subreddit} doesn't allow grabbing random posts{RES}")
+        return
+    else:
+        url = submission.url
+        full_url = f'https://www.reddit.com{submission.permalink}'
+
 
     # Initialize title and shorten to max 253 characters
     title = submission.title
@@ -126,7 +135,7 @@ async def randompost(interaction: Interaction, subreddit_name: str = SlashOption
     # Customize embed
     embed = embed_template.copy()
     embed.title = title
-    embed.url = permalink
+    embed.url = full_url
     embed.description = post_body
     embed.set_author(name=f'r/{submission.subreddit}', url=f'https://www.reddit.com/r/{submission.subreddit}')
     if url.endswith('.jpg') or url.endswith('.png') or url.endswith('.jpeg'): 
@@ -136,10 +145,8 @@ async def randompost(interaction: Interaction, subreddit_name: str = SlashOption
     # )
 
 
-    # Send embed
+    # Send embed and confirmation message
     await interaction.followup.send(embed=embed)
-
-    # Send confirmation message
     print(f'Sent post from {YLW}{submission.subreddit}{RES}: {submission.title}')
 
 
@@ -158,7 +165,7 @@ async def define(interaction: Interaction, word: str = SlashOption(description="
                 data = await resp.json()
     except Exception as ex: 
         error_embed = error_template.copy()
-        error_embed.title = "Word not found"
+        error_embed.title = "Something went wrong"
         error_embed.description = f'API Error. Please contact developer.'
         await interaction.response.send_message(embed=error_embed) 
         print(f'{RED}[ERROR]: {ex}{RES}')
@@ -168,10 +175,10 @@ async def define(interaction: Interaction, word: str = SlashOption(description="
         content = data[0]['meanings']
     except KeyError: # Send error embed if the word isn't found
         error_embed = error_template.copy()
-        error_embed.title = "Invalid input"
+        error_embed.title = "Word not found"
         error_embed.description = f'Can\'t find "{word}" in dictionary'
         await interaction.response.send_message(embed=error_embed)
-        print(f'{RED}Can\'t find "{word}" in dictionary.{RES}')
+        print(f'{RED}[INVALID]: Can\'t find "{word}" in dictionary.{RES}')
         return
 
     
@@ -224,21 +231,19 @@ async def roll(interaction: Interaction, dice: str=SlashOption(description="Spec
         rolls, sides = map(int, dice.split('d'))
     except Exception as invalid_input:
         error_embed = error_template.copy()
-        error_embed.title = 'Invalid input'
-        error_embed.description = '`dice` input should be formatted like **NdN**\n\
-            Each N must be a non-negative, non-zero integer'
+        error_embed.title = 'Invalid input format'
+        error_embed.description = '`dice` input should be formatted like **NdN**'
         await interaction.response.send_message(embed=error_embed)
         print(f'{RED}[INVALID]: Incorrect roll input format{RES}')
         return
 
-    # Send error if sides = 0 
-    if sides == 0:
+    # Send error if sides or rolls is < 1 
+    if sides < 1 or rolls < 1:
         error_embed = error_template.copy()
-        error_embed.title = 'Invalid input'
-        error_embed.description = '`dice` input should be formatted like **NdN**\n\
-            Each N must be a non-negative, non-zero integer'
+        error_embed.title = 'Invalid values'
+        error_embed.description = 'Each N in NdN must be a non-negative, non-zero integer'
         await interaction.response.send_message(embed=error_embed)
-        print(f'{RED}[INVALID]: Sides was 0{RES}')
+        print(f'{RED}[INVALID]: Sides or  was less than 1{RES}')
         return
 
     embed = embed_template.copy()
@@ -249,12 +254,14 @@ async def roll(interaction: Interaction, dice: str=SlashOption(description="Spec
         total += this_roll
         embed.add_field(name=f'Roll {r + 1}', value=f'{this_roll}', inline=True)
 
-    embed.title = f'{dice} | Total = {total}'
+    # Formatted string 
+    dice_trimmed = f'{rolls}d{sides}'
+    embed.title = f'{dice_trimmed} | Total = {total}'
 
     
     # Send embed and confirmation output
     await interaction.response.send_message(embed=embed)
-    print(f'Rolled {YLW}{dice}{RES} for a total of {YLW}{total}{RES}!')
+    print(f'Rolled {YLW}{dice_trimmed}{RES} for a total of {YLW}{total}{RES}!')
 
 
 
