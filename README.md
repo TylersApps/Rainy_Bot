@@ -1,5 +1,5 @@
 # Rainy Bot
-Rainy Bot is a multi-use Discord bot that I use in my servers. It has several random functions (outlined below) and I would love to try new functions. Pop an idea in the [issues](https://github.com/tholley7/Rainy_Bot/issues) tab if you have an idea for a new feature and I will do my best to implement it!
+Rainy Bot is a multi-use Discord bot that I use in my servers. It has several functions (outlined below) and I would love to try new functions. Pop an idea in the [issues](https://github.com/tholley7/Rainy_Bot/issues) tab if you have an idea for a new feature and I will do my best to implement it!
 
 
 ## Commands
