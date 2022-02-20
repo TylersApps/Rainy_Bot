@@ -16,7 +16,7 @@ class Basic(commands.Cog):
 
     @nextcord.slash_command(guild_ids=[TEST_GUILD_ID], description="Get a list of Rainy Bot's commands")
     async def help(self, interaction: Interaction):
-        """Send a list of available commands to the channel where this command is sent."""
+        """Sends a list of available commands."""
         print(f'{CY}Help{RES} command used!')
 
         embed = EMBED_TEMPLATE.copy()
@@ -25,22 +25,41 @@ class Basic(commands.Cog):
         embed.set_thumbnail(url='https://i.imgur.com/bhbTUOe.png')
 
         embed.description = '\
-                `/help`\n Display a list of available commands\n\n\
-                `/randompost <subreddit_name>`\n Get random post from subreddit\n\n\
-                `/roll <(x)d(y)>`\n Roll x dice, each with y sides\n\n\
-                `/define <word>`\n Define a word (English only)'
+                `/help`\Get a list of available commands\n\n\
+                `/adminhelp`\nIf you are an admin, get a list of admin commands.\n\n\
+                `/randompost <subreddit_name>`\nGet random post from subreddit\n\n\
+                `/roll <(x)d(y)>`\nRoll x dice, each with y sides\n\n\
+                `/define <word>`\nDefine a word (English only)'
         
 
-        await interaction.response.send_message(embed=embed, view=utils.GitHubButton())
+        await interaction.response.send_message(embed=embed, view=utils.GitHubButton(), ephemeral=True)
 
 
-    @nextcord.slash_command(guild_ids=[TEST_GUILD_ID], description='Command not yet supported')
-    async def pronounmenu(self, interaction: Interaction):
-        """Send a message with buttons to allow users to get a role with their pronouns"""
-        print(f'{CY}PronounMenu{RES} command used!')
 
-        await interaction.response.send_message('**Click a button add or remove a role:**', view=RoleView())
-        print(f'Sent {YW}Pronoun Menu{RES}!')
+    @nextcord.slash_command(guild_ids=[TEST_GUILD_ID], description="Get a list of Rainy Bot's admin commands")
+    async def adminhelp(self, interaction: Interaction):
+        """Sends a list of admin commands."""
+        print(f'{CY}AdminHelp{RES} command used!')
+
+        if not interaction.user.guild_permissions.administrator:
+            error_embed = ERROR_TEMPLATE.copy()
+            error_embed.title = 'Invalid permissions'
+            error_embed.description = "You don't have the right permissions to use that command."
+            await interaction.response.send_message(embed=error_embed)
+            print(f'{RD}[INVALID PERMISSIONS]: User does not have permission to use Pronouns command.{RES}')
+            return
+
+        embed = EMBED_TEMPLATE.copy()
+        embed.color = BRAND_COLOR
+        embed.title = 'Rainy Bot Admin Commands'
+        embed.set_thumbnail(url='https://i.imgur.com/bhbTUOe.png')
+
+        embed.description = '\
+                `/adminhelp`\nGet a list of admin-specific commands\n\n\
+                `/pronouns`\nSend an embed with buttons for users to self-assign a pronouns role'
+            
+
+        await interaction.response.send_message(embed=embed, view=utils.GitHubButton(), ephemeral=True)
 
     
     @nextcord.slash_command(guild_ids=[TEST_GUILD_ID], description='Roll a specific amount of dice with a specific amount of sides.')
@@ -89,7 +108,26 @@ class Basic(commands.Cog):
         print(f'Rolled {YW}{dice_trimmed}{RES} for a total of {YW}{total}{RES}!')
 
 
-    
+    @nextcord.slash_command(guild_ids=[TEST_GUILD_ID], description='Command not yet supported')
+    async def pronouns(self, interaction: Interaction):
+        """Send a message with buttons to allow users to get a role with their pronouns"""
+        if not interaction.user.guild_permissions.administrator:
+            error_embed = ERROR_TEMPLATE.copy()
+            error_embed.title = 'Invalid permissions'
+            error_embed.description = "You don't have the right permissions to use that command."
+            await interaction.response.send_message(embed=error_embed)
+            print(f'{RD}[INVALID PERMISSIONS]: User does not have permission to use Pronouns command.{RES}')
+            return
+
+        print(f'{CY}PronounMenu{RES} command used!')
+
+        embed = EMBED_TEMPLATE.copy()
+        embed.title = 'What are your pronouns?'
+        embed.description = 'Use the buttons below to select what pronouns you use.'
+
+        await interaction.response.send_message(embed=embed, view=RoleView())
+        print(f'Sent {YW}Pronoun Menu{RES}!')
+
     
     
 def setup(bot):
