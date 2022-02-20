@@ -11,8 +11,6 @@ from buttons import RoleView
 # Initialize bot
 bot = commands.Bot(command_prefix="~", intents=nextcord.Intents.all() )
 
-test_guild_id = TEST_GUILD_ID
-
 
 @bot.event
 async def on_ready():
