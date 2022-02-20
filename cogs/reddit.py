@@ -42,10 +42,10 @@ class Reddit(commands.Cog):
         except AttributeError: # Couldn't grab submission
             error_embed = ERROR_TEMPLATE.copy()
             error_embed.title = 'Subreddit unsupported'
-            error_embed.description=f"r/{subreddit} doesn't allow grabbing random posts"
+            error_embed.description=f"r/{subreddit} doesn't allow grabbing random posts or doesn't have any posts."
 
             await interaction.followup.send(embed=error_embed)
-            print(f"{RD}[SUBREDDIT UNSUPPORTED]: r/{subreddit} doesn't allow grabbing random posts{RES}")
+            print(f"{RD}[UNSUPPORTED]: r/{subreddit} doesn't allow grabbing random posts or doesn't have any posts.{RES}")
             return
 
         # # If subreddit doesn't support getting random post
