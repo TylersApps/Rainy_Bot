@@ -25,7 +25,7 @@ class Basic(commands.Cog):
 
         embed.description = '\
                 `/help`\nGet a list of available commands\n\n\
-                `/adminhelp`\nIf you are an admin, get a list of admin commands.\n\n\
+                `/adminhelp`\nGet a list of admin commands (admin only).\n\n\
                 `/randompost <subreddit_name>`\nGet random post from subreddit\n\n\
                 `/roll <(x)d(y)>`\nRoll x dice, each with y sides\n\n\
                 `/define <word>`\nDefine a word (English only)'
