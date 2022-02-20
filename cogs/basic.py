@@ -5,7 +5,7 @@ from config import TEST_GUILD_ID
 from embed_templates import ERROR_TEMPLATE, EMBED_TEMPLATE
 from colors import BRAND_COLOR, RES, CY, YW, RD
 from utils import utils
-from buttons import RoleView
+from buttons import RoleView, GitHubButton
 from random import randint
 
 
@@ -32,7 +32,7 @@ class Basic(commands.Cog):
                 `/define <word>`\nDefine a word (English only)'
         
 
-        await interaction.response.send_message(embed=embed, view=utils.GitHubButton(), ephemeral=True)
+        await interaction.response.send_message(embed=embed, view=GitHubButton(), ephemeral=True)
 
 
 
@@ -59,7 +59,7 @@ class Basic(commands.Cog):
                 `/pronouns`\nSend an embed with buttons for users to self-assign a pronouns role'
             
 
-        await interaction.response.send_message(embed=embed, view=utils.GitHubButton(), ephemeral=True)
+        await interaction.response.send_message(embed=embed, view=GitHubButton(), ephemeral=True)
 
     
     @nextcord.slash_command(guild_ids=[TEST_GUILD_ID], description='Roll a specific amount of dice with a specific amount of sides.')
