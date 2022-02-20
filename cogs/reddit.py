@@ -28,10 +28,10 @@ class Reddit(commands.Cog):
         except Exception: # Invalid subreddit input
             error_embed = ERROR_TEMPLATE.copy()
             error_embed.title = 'Invalid subreddit'
-            error_embed.description=f"r/{subreddit_name} doesn't exist or is banned."
+            error_embed.description=f"r/{subreddit_name} doesn't exist or is banned from Reddit."
 
             await interaction.followup.send(embed=error_embed)
-            print(f"{RD}[INVALID]: r/{subreddit_name} doesn't exist or is banned{RES}")
+            print(f"{RD}[INVALID]: r/{subreddit_name} doesn't exist or is banned{RES} from Reddit.")
             return
 
         try:
