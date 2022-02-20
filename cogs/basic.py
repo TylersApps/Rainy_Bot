@@ -20,16 +20,16 @@ class Basic(commands.Cog):
         print(f'{CY}Help{RES} command used!')
 
         embed = EMBED_TEMPLATE.copy()
+        embed.color = BRAND_COLOR
+        embed.title = 'Rainy Bot Commands'
+        embed.set_thumbnail(url='https://i.imgur.com/bhbTUOe.png')
 
         embed.description = '\
                 `/help`\n Display a list of available commands\n\n\
                 `/randompost <subreddit_name>`\n Get random post from subreddit\n\n\
                 `/roll <(x)d(y)>`\n Roll x dice, each with y sides\n\n\
                 `/define <word>`\n Define a word (English only)'
-
-        embed.title = 'Rainy Bot Commands'
-        embed.color = BRAND_COLOR
-        embed.set_thumbnail(url='https://i.imgur.com/bhbTUOe.png')
+        
 
         await interaction.response.send_message(embed=embed, view=utils.GitHubButton())
 
