@@ -33,7 +33,7 @@ class Basic(commands.Cog):
         embed.set_thumbnail(url=BOT_ICON_URL)
 
 
-        await interaction.response.send_message(embed=embed, view=GitHubButton())
+        await interaction.response.send_message(embed=embed, view=GitHubButton(), ephemeral=True)
 
 
 
@@ -56,12 +56,12 @@ class Basic(commands.Cog):
 
         embed.description = '\
                 `/adminhelp`\nGet a list of admin-specific commands\n\n\
-                `/pronouns`\nSend an embed with buttons for users to self-assign a pronouns role'
+                `/pronouns`\nSend an embed with buttons to set pronouns'
 
         embed.set_thumbnail(url=BOT_ICON_URL)    
         
 
-        await interaction.response.send_message(embed=embed, view=GitHubButton())
+        await interaction.response.send_message(embed=embed, view=GitHubButton(), ephemeral=True)
 
     
     @nextcord.slash_command(guild_ids=[TEST_GUILD_ID], description='Roll a specific amount of dice with a specific amount of sides.')
