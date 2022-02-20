@@ -1,7 +1,7 @@
 import nextcord
 from nextcord.ext import commands
 from nextcord import Interaction, SlashOption
-from config import TEST_GUILD_ID
+from config import TEST_GUILD_ID, BOT_ICON_URL
 from embed_templates import ERROR_TEMPLATE, EMBED_TEMPLATE
 from colors import BRAND_COLOR, RES, CY, YW, RD
 from utils import utils
@@ -22,17 +22,18 @@ class Basic(commands.Cog):
         embed = EMBED_TEMPLATE.copy()
         embed.color = BRAND_COLOR
         embed.title = 'Rainy Bot Commands'
-        embed.set_thumbnail(url='https://i.imgur.com/bhbTUOe.png')
 
         embed.description = '\
-                `/help`\Get a list of available commands\n\n\
+                `/help`\nGet a list of available commands\n\n\
                 `/adminhelp`\nIf you are an admin, get a list of admin commands.\n\n\
                 `/randompost <subreddit_name>`\nGet random post from subreddit\n\n\
                 `/roll <(x)d(y)>`\nRoll x dice, each with y sides\n\n\
                 `/define <word>`\nDefine a word (English only)'
         
+        embed.set_thumbnail(url=BOT_ICON_URL)
 
-        await interaction.response.send_message(embed=embed, view=GitHubButton(), ephemeral=True)
+
+        await interaction.response.send_message(embed=embed, view=GitHubButton())
 
 
 
@@ -52,14 +53,15 @@ class Basic(commands.Cog):
         embed = EMBED_TEMPLATE.copy()
         embed.color = BRAND_COLOR
         embed.title = 'Rainy Bot Admin Commands'
-        embed.set_thumbnail(url='https://i.imgur.com/bhbTUOe.png')
 
         embed.description = '\
                 `/adminhelp`\nGet a list of admin-specific commands\n\n\
                 `/pronouns`\nSend an embed with buttons for users to self-assign a pronouns role'
-            
 
-        await interaction.response.send_message(embed=embed, view=GitHubButton(), ephemeral=True)
+        embed.set_thumbnail(url=BOT_ICON_URL)    
+        
+
+        await interaction.response.send_message(embed=embed, view=GitHubButton())
 
     
     @nextcord.slash_command(guild_ids=[TEST_GUILD_ID], description='Roll a specific amount of dice with a specific amount of sides.')
@@ -110,7 +112,7 @@ class Basic(commands.Cog):
 
     @nextcord.slash_command(guild_ids=[TEST_GUILD_ID], description='Command not yet supported')
     async def pronouns(self, interaction: Interaction):
-        """Send a message with buttons to allow users to get a role with their pronouns"""
+        """Sends a message with buttons to allow users to get a role with their pronouns"""
         if not interaction.user.guild_permissions.administrator:
             error_embed = ERROR_TEMPLATE.copy()
             error_embed.title = 'Invalid permissions'
