@@ -28,15 +28,15 @@ class Reddit(commands.Cog):
         except Exception: # Invalid subreddit input
             error_embed = ERROR_TEMPLATE.copy()
             error_embed.title = 'Invalid subreddit'
-            error_embed.description=f"r/{subreddit_name} doesn't exist."
+            error_embed.description=f"r/{subreddit_name} doesn't exist or is banned."
 
             await interaction.followup.send(embed=error_embed)
-            print(f'{RD}Invalid subreddit input{RES}')
+            print(f"{RD}[INVALID]: r/{subreddit_name} doesn't exist or is banned{RES}")
             return
 
         try:
             submission = await subreddit.random()
-            print(f'{GR}GRABBED SUBMISSION:{RES} {submission}')
+            # print(f'{GR}GRABBED SUBMISSION:{RES} {submission}')
             url = submission.url
             full_url = f'https://www.reddit.com{submission.permalink}'
         except AttributeError: # Couldn't grab submission
