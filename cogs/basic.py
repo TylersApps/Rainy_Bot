@@ -83,14 +83,15 @@ class Basic(commands.Cog):
             print(f'{RD}[INVALID]: Incorrect roll input format{RES}')
             return
 
-        # Send error if sides or rolls is < 1 
-        if sides < 1 or rolls < 1:
+        # Send error if sides or rolls is < 2 or > 100
+        if sides < 2 or rolls < 2 or sides > 100 or dice > 100:
             error_embed = ERROR_TEMPLATE.copy()
-            error_embed.title = 'Invalid values'
-            error_embed.description = 'Each N in NdN must be a non-negative, non-zero integer'
+            error_embed.title = 'Invalid input'
+            error_embed.description = 'Each N in NdN must be a non-negative, non-zero integer 2-100.'
             await interaction.response.send_message(embed=error_embed)
-            print(f'{RD}[INVALID]: Sides or  was less than 1{RES}')
+            print(f'{RD}[INVALID]: One or more N was negative, zero, <2, or >100{RES}')
             return
+
 
         embed = EMBED_TEMPLATE.copy()
 
