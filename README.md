@@ -14,7 +14,7 @@ Rainy Bot is a multi-use Discord bot that I use in my servers. It has several fu
 ### Planned
 - `/urban <word>` defines the word with Urban Dictionary
 - `/notion` to interface with Notion.so through Discord
-- ``
+- `/rules` sends rules message to channel [Owner Only]
 
 
 ## Built With
