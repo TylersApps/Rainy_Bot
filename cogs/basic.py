@@ -35,7 +35,7 @@ class Basic(commands.Cog):
         embed.set_thumbnail(url=BOT_ICON_URL)
 
         try:
-            await interaction.response.send_message(embed=embed, view=GitHubButton(), ephemeral=True)
+            await interaction.response.send_message(embed=embed, view=GitHubButtonView(), ephemeral=True)
         except Exception:
                 print(f'{RD}[FORBIDDEN]: Bot missing permissions to send messages.{RES}')
 
@@ -67,7 +67,7 @@ class Basic(commands.Cog):
         embed.set_thumbnail(url=BOT_ICON_URL)    
         
         try:
-            await interaction.response.send_message(embed=embed, view=GitHubButton(), ephemeral=True)
+            await interaction.response.send_message(embed=embed, view=GitHubButtonView(), ephemeral=True)
         except Exception:
                 print(f'{RD}[FORBIDDEN]: Bot missing permissions to send messages.{RES}')
 
