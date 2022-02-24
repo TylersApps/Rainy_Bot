@@ -1,9 +1,10 @@
 import nextcord
 from nextcord.ext import commands
 from nextcord import Interaction, SlashOption
-from config import reddit, TEST_GUILD_ID
-from embed_templates import ERROR_TEMPLATE, EMBED_TEMPLATE
+from config import reddit, TEST_GUILD_IDS
+from embeds import ERROR_TEMPLATE, EMBED_TEMPLATE
 from colors import BRAND_COLOR, RES, CY, YW, RD, GR
+from errors_messages import MISSING_PERMISSIONS
 
 
 
@@ -11,7 +12,7 @@ class Reddit(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    @nextcord.slash_command(guild_ids=[TEST_GUILD_ID], description='Get a random post from a subreddit')
+    @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description='Get a random post from a subreddit')
     async def randompost(self, interaction: Interaction, subreddit_name: str = SlashOption(description="Subreddit Choice")):
         """Send a random post from specified subreddit as an embed"""
         await interaction.response.defer()
@@ -30,7 +31,11 @@ class Reddit(commands.Cog):
             error_embed.title = 'Invalid subreddit'
             error_embed.description=f"r/{subreddit_name} doesn't exist or is banned from Reddit."
 
-            await interaction.followup.send(embed=error_embed)
+            try:
+                await interaction.followup.send(embed=error_embed)
+            except Exception:
+                print(MISSING_PERMISSIONS)
+
             print(f"{RD}[INVALID]: r/{subreddit_name} doesn't exist or is banned{RES} from Reddit.")
             return
 
@@ -44,22 +49,13 @@ class Reddit(commands.Cog):
             error_embed.title = 'Subreddit unsupported'
             error_embed.description=f"r/{subreddit} doesn't allow grabbing random posts or doesn't have any posts."
 
-            await interaction.followup.send(embed=error_embed)
+            try:
+                await interaction.followup.send(embed=error_embed)
+            except Exception:
+                print(MISSING_PERMISSIONS)
+            
             print(f"{RD}[UNSUPPORTED]: r/{subreddit} doesn't allow grabbing random posts or doesn't have any posts.{RES}")
             return
-
-        # # If subreddit doesn't support getting random post
-        # if submission == None: 
-        #     error_embed = ERROR_TEMPLATE.copy()
-        #     error_embed.title = 'Subreddit unsupported'
-        #     error_embed.description=f"r/{subreddit} doesn't allow grabbing random posts"
-
-        #     await interaction.followup.send(embed=error_embed)
-        #     print(f"{RD}[SUBREDDIT UNSUPPORTED]: r/{subreddit} doesn't allow grabbing random posts{RES}")
-        #     return
-        # else:
-        #     url = submission.url
-        #     full_url = f'https://www.reddit.com{submission.permalink}'
 
 
         # Initialize title and shorten to max 253 characters
@@ -85,7 +81,11 @@ class Reddit(commands.Cog):
 
 
         # Send embed and confirmation message
-        await interaction.followup.send(embed=embed)
+        try:
+            await interaction.followup.send(embed=embed)
+        except Exception:
+                print(MISSING_PERMISSIONS)
+
         print(f'Sent post from {YW}{submission.subreddit}{RES}: {submission.title}')
 
 

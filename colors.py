@@ -9,6 +9,6 @@ YW = Fore.YELLOW
 RES = Style.RESET_ALL
 
 # Embed colors
-BRAND_COLOR = nextcord.Colour.from_rgb(65, 157, 193)
+BRAND_COLOR = nextcord.Colour.from_rgb(125, 183, 233)
 EMBED_COLOR = nextcord.Colour.from_rgb(47, 49, 54)
 ERROR_COLOR = nextcord.Colour.from_rgb(217, 95, 87)

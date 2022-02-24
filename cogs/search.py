@@ -2,16 +2,17 @@ import aiohttp
 import nextcord
 from nextcord.ext import commands
 from nextcord import Interaction, SlashOption
-from config import TEST_GUILD_ID
+from config import TEST_GUILD_IDS
 from colors import BRAND_COLOR, RES, RD, YW, CY, GR
-from embed_templates import ERROR_TEMPLATE, EMBED_TEMPLATE, UPCOMING_EMBED
+from embeds import ERROR_TEMPLATE, EMBED_TEMPLATE, UPCOMING_EMBED
+from errors_messages import MISSING_PERMISSIONS
 
 
 class Search(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @nextcord.slash_command(guild_ids=[TEST_GUILD_ID], description='Get the definition of a word')
+    @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description='Get the definition of a word')
     async def define(self, interaction: Interaction, word: str = SlashOption(description="Word to define")):
         """Send the definition of the specified word"""
         print(f'{CY}Define{RES} command used!')
@@ -27,7 +28,12 @@ class Search(commands.Cog):
             error_embed = ERROR_TEMPLATE.copy()
             error_embed.title = "Something went wrong"
             error_embed.description = f'API Error. Please contact developer.'
-            await interaction.response.send_message(embed=error_embed) 
+
+            try:
+                await interaction.response.send_message(embed=error_embed)
+            except Exception:
+                print(MISSING_PERMISSIONS)
+
             print(f'{RD}[ERROR]: {ex}{RES}')
             return
         
@@ -37,7 +43,12 @@ class Search(commands.Cog):
             error_embed = ERROR_TEMPLATE.copy()
             error_embed.title = "Word not found"
             error_embed.description = f'Can\'t find "{word}" in dictionary'
-            await interaction.response.send_message(embed=error_embed)
+
+            try:
+                await interaction.response.send_message(embed=error_embed)
+            except Exception:
+                print(MISSING_PERMISSIONS)
+            
             print(f'{RD}[INVALID]: Can\'t find "{word}" in dictionary.{RES}')
             return
 
@@ -63,17 +74,24 @@ class Search(commands.Cog):
 
 
         # Send embed
-        await interaction.response.send_message(embed=embed)
+        try:
+            await interaction.response.send_message(embed=embed)
+        except Exception:
+                print(MISSING_PERMISSIONS)
         
         # Send confirmation message
         print(f'Sent definition of {YW}{word}{RES}!')
 
 
     
-    @nextcord.slash_command(guild_ids=[TEST_GUILD_ID], description='Command not yet supported')
+    @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description='Command not yet supported')
     async def urban(self, interaction: Interaction):
         """Define a word or term with Urban Dictionary"""
-        await interaction.response.send_message(embed=UPCOMING_EMBED)
+        try:
+            await interaction.response.send_message(embed=UPCOMING_EMBED)
+        except Exception:
+                print(MISSING_PERMISSIONS)
+
         print(f'{RD}[NOT SUPPORTED]: Urban command not supported yet.{RES}')
 
 

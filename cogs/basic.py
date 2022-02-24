@@ -1,11 +1,13 @@
 import nextcord
 from nextcord.ext import commands
 from nextcord import Interaction, SlashOption
-from config import TEST_GUILD_ID, BOT_ICON_URL
-from embed_templates import ERROR_TEMPLATE, EMBED_TEMPLATE
+from numpy import delete
+from config import TEST_GUILD_IDS, BOT_ICON_URL, SUPPORT_ROLE_ID, MOD_ROLE_ID
+from embeds import ERROR_TEMPLATE, EMBED_TEMPLATE, BRAND_TEMPLATE, INVALID_PERMISSIONS
 from colors import BRAND_COLOR, RES, CY, YW, RD
-from utils import utils
-from buttons import RoleView, GitHubButton
+from emojis import *
+from errors_messages import MISSING_PERMISSIONS
+from buttons import AcceptRules, Pronouns, GitHubButton
 from random import randint
 
 
@@ -14,7 +16,7 @@ class Basic(commands.Cog):
         self.bot = bot
     
 
-    @nextcord.slash_command(guild_ids=[TEST_GUILD_ID], description="Get a list of Rainy Bot's commands")
+    @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description="Get a list of Rainy Bot's commands")
     async def help(self, interaction: Interaction):
         """Sends a list of available commands."""
         print(f'{CY}Help{RES} command used!')
@@ -32,21 +34,24 @@ class Basic(commands.Cog):
         
         embed.set_thumbnail(url=BOT_ICON_URL)
 
+        try:
+            await interaction.response.send_message(embed=embed, view=GitHubButton(), ephemeral=True)
+        except Exception:
+                print(f'{RD}[FORBIDDEN]: Bot missing permissions to send messages.{RES}')
 
-        await interaction.response.send_message(embed=embed, view=GitHubButton(), ephemeral=True)
 
 
-
-    @nextcord.slash_command(guild_ids=[TEST_GUILD_ID], description="Get a list of Rainy Bot's admin commands")
+    @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description="Get a list of Rainy Bot's admin commands")
     async def adminhelp(self, interaction: Interaction):
         """Sends a list of admin commands."""
         print(f'{CY}AdminHelp{RES} command used!')
 
         if not interaction.user.guild_permissions.administrator:
-            error_embed = ERROR_TEMPLATE.copy()
-            error_embed.title = 'Invalid permissions'
-            error_embed.description = "You don't have the right permissions to use that command."
-            await interaction.response.send_message(embed=error_embed)
+            try:
+                await interaction.response.send_message(embed=INVALID_PERMISSIONS, ephemeral=True)
+            except Exception:
+                print(f'{RD}[FORBIDDEN]: Bot missing permissions to send messages.{RES}')
+            
             print(f'{RD}[INVALID PERMISSIONS]: User does not have permission to use Pronouns command.{RES}')
             return
 
@@ -60,11 +65,14 @@ class Basic(commands.Cog):
 
         embed.set_thumbnail(url=BOT_ICON_URL)    
         
+        try:
+            await interaction.response.send_message(embed=embed, view=GitHubButton(), ephemeral=True)
+        except Exception:
+                print(f'{RD}[FORBIDDEN]: Bot missing permissions to send messages.{RES}')
 
-        await interaction.response.send_message(embed=embed, view=GitHubButton(), ephemeral=True)
 
-    
-    @nextcord.slash_command(guild_ids=[TEST_GUILD_ID], description='Roll a specific amount of dice with a specific amount of sides.')
+
+    @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description='Roll a specific amount of dice with a specific amount of sides.')
     async def roll(self, interaction: Interaction, dice: str=SlashOption(description="Specified dice")):
         """Rolls die/dice with NdN format"""
         print(f'{CY}Roll{RES} command used!')
@@ -79,7 +87,11 @@ class Basic(commands.Cog):
             error_embed = ERROR_TEMPLATE.copy()
             error_embed.title = 'Invalid input format'
             error_embed.description = '`dice` input should be formatted like **NdN**'
-            await interaction.response.send_message(embed=error_embed)
+            try:
+                await interaction.response.send_message(embed=error_embed)
+            except Exception:
+                print(MISSING_PERMISSIONS)
+            
             print(f'{RD}[INVALID]: Incorrect roll input format{RES}')
             return
 
@@ -88,7 +100,11 @@ class Basic(commands.Cog):
             error_embed = ERROR_TEMPLATE.copy()
             error_embed.title = 'Invalid input'
             error_embed.description = 'Each N in NdN must be a non-negative, non-zero integer 2-100.'
-            await interaction.response.send_message(embed=error_embed)
+            try: 
+                await interaction.response.send_message(embed=error_embed)
+            except Exception:
+                print(f'{RD}[FORBIDDEN]: Bot missing permissions to send messages.{RES}')
+
             print(f'{RD}[INVALID]: One or more N was negative, zero, <2, or >100{RES}')
             return
 
@@ -107,29 +123,97 @@ class Basic(commands.Cog):
 
         
         # Send embed and confirmation output
-        await interaction.response.send_message(embed=embed)
+        try:
+            await interaction.response.send_message(embed=embed)
+        except Exception:
+                print(MISSING_PERMISSIONS)
+
         print(f'Rolled {YW}{dice_trimmed}{RES} for a total of {YW}{total}{RES}!')
 
 
-    @nextcord.slash_command(guild_ids=[TEST_GUILD_ID], description='Command not yet supported')
+
+    @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description='Send an embed with buttons to set pronouns')
     async def pronouns(self, interaction: Interaction):
         """Sends a message with buttons to allow users to get a role with their pronouns"""
+        print(f'{CY}Pronouns{RES} command used!')
+
+        # If the user who used the command doesn't have admin perms
         if not interaction.user.guild_permissions.administrator:
             error_embed = ERROR_TEMPLATE.copy()
             error_embed.title = 'Invalid permissions'
             error_embed.description = "You don't have the right permissions to use that command."
-            await interaction.response.send_message(embed=error_embed)
+            try:
+                await interaction.response.send_message(embed=error_embed)
+            except Exception:
+                print(MISSING_PERMISSIONS)
+            
             print(f'{RD}[INVALID PERMISSIONS]: User does not have permission to use Pronouns command.{RES}')
             return
 
-        print(f'{CY}PronounMenu{RES} command used!')
-
+        
         embed = EMBED_TEMPLATE.copy()
         embed.title = 'What are your pronouns?'
         embed.description = 'Use the buttons below to select what pronouns you use.'
 
-        await interaction.response.send_message(embed=embed, view=RoleView())
-        print(f'Sent {YW}Pronoun Menu{RES}!')
+        try:
+            await interaction.response.send_message(embed=embed, view=Pronouns())
+            print(f'Sent {YW}Pronoun Menu{RES}!')
+        except Exception:
+                print(MISSING_PERMISSIONS)
+
+    
+
+    @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description='Send rules embed')
+    async def rules(self, interaction: Interaction):
+        """Sends a message with the server rules in the form of an embed"""
+        print(f'{CY}Rules{RES} command used!')
+
+        # If the user who used the command isn't server owner
+        if not await self.bot.is_owner(interaction.user): 
+            try:
+                await interaction.response.send_message(embed=INVALID_PERMISSIONS, ephemeral=True)
+            except Exception:
+                print(MISSING_PERMISSIONS)
+            
+            print(f'{RD}[INVALID PERMISSIONS]: User does not have permission to use Rules command.{RES}')
+            return
+        
+
+        embed = BRAND_TEMPLATE.copy()
+        embed.description = f"\
+            **Welcome to Rainy Support!**\n\
+            Before you get started we’d like to inform you about our community guidelines.\n\
+            \n\
+            **You can:**\n\
+            {CHECK} Ping <@&{SUPPORT_ROLE_ID}> for help or <@&{MOD_ROLE_ID}> to report rule violation.\n\
+            {CHECK} Mention someone directly to reply to or address them directly.\n\
+            {CHECK} Let others test the bot. You are not the only one in here.\n\
+            \n\
+            **You can't:**\n\
+            {REDX} Swear or use inflammatory language.\n\
+            {REDX} Send NSFW content outside of the designated channel.\n\
+            {REDX} Use bot commands outside of the Bot Demo category.\n\
+            {REDX} Violate Discord ToS. This is an instant ban.\n\
+            {REDX} Send advertisements in channels or DMs.\n\
+            \n\
+            **Please try not to:**\n\
+            {SLASH} Interrupt staff.\n\
+            {SLASH} Tell mods how to do their job.\n\
+            {SLASH} Comment on actions taken by our moderators.\n\
+            {SLASH} Ask to become a moderator. (If we are recruiting, you'll know.)\n\
+            \n\
+            **Note:**\n\
+            Moderators are allowed to warn, mute, kick, and ban for any reason.\n\
+            Please make sure to read pinned messages and channel descriptions for rules."
+        
+
+        # Send message without normal users seeing.
+        try:
+            await interaction.response.send_message('Sending message...', ephemeral=True, delete_after=30)
+            await interaction.channel.send(embed=embed, view=AcceptRules())
+        except Exception:
+                print(MISSING_PERMISSIONS)
+
 
     
     
