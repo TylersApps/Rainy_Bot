@@ -10,11 +10,11 @@ Rainy Bot is a multi-use Discord bot that I use in my servers. It has several fu
 - `/roll <(x)d(y)>` rolls x dice with y sides (e.g. "/roll 4d6" rolls four 6-sded dice).
 - `/define <word>` defines the word passed in using the [Free Dictionary API](https://dictionaryapi.dev/).
 - `/pronouns` sends an embed with buttons to set pronouns [Admin Only]
+- `/rules` sends rules message to channel [Owner Only]
 
 ### Planned
 - `/urban <word>` defines the word with Urban Dictionary
 - `/notion` to interface with Notion.so through Discord
-- `/rules` sends rules message to channel [Owner Only]
 
 
 ## Built With
@@ -33,5 +33,4 @@ This project is licensed under the **MIT License** - see the [LICENSE.md](LICENS
 
 
 ## Acknowledgements
-Inspired by:
-- [WoodyBot](https://github.com/Milesnocte/WoodyBot) by Milesnocte
+Inspired by Milesnocte's [WoodyBot](https://github.com/Milesnocte/WoodyBot)
