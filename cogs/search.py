@@ -5,7 +5,7 @@ from nextcord import Interaction, SlashOption
 from config import TEST_GUILD_IDS
 from colors import BRAND_COLOR, RES, RD, YW, CY, GR
 from embeds import ERROR_TEMPLATE, EMBED_TEMPLATE, UPCOMING_EMBED
-from errors_messages import MISSING_PERMISSIONS
+from error_messages import MISSING_PERMISSIONS
 
 
 class Search(commands.Cog):

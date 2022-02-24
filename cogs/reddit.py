@@ -4,7 +4,7 @@ from nextcord import Interaction, SlashOption
 from config import reddit, TEST_GUILD_IDS
 from embeds import ERROR_TEMPLATE, EMBED_TEMPLATE
 from colors import BRAND_COLOR, RES, CY, YW, RD, GR
-from errors_messages import MISSING_PERMISSIONS
+from error_messages import MISSING_PERMISSIONS
 
 
 

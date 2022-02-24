@@ -6,7 +6,7 @@ from config import TEST_GUILD_IDS, BOT_ICON_URL, SUPPORT_ROLE_ID, MOD_ROLE_ID
 from embeds import ERROR_TEMPLATE, EMBED_TEMPLATE, BRAND_TEMPLATE, INVALID_PERMISSIONS
 from colors import BRAND_COLOR, RES, CY, YW, RD
 from emojis import *
-from errors_messages import MISSING_PERMISSIONS
+from error_messages import MISSING_PERMISSIONS
 from buttons import AcceptRules, Pronouns, GitHubButton
 from random import randint
 

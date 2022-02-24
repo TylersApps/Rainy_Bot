@@ -3,7 +3,7 @@ import config
 from utils import utils
 from nextcord import Interaction
 from colors import RD, RES
-from errors_messages import MISSING_PERMISSIONS
+from error_messages import MISSING_PERMISSIONS
 
 
 
