@@ -7,7 +7,7 @@ from error_messages import MISSING_PERMISSIONS
 
 
 
-class GitHubButton(nextcord.ui.View): ## Format from nextcord examples on GitHub
+class GitHubButtonView(nextcord.ui.View): ## Format from nextcord examples on GitHub
     """Function necessary to add link button to help command embed"""
     def __init__(self):
         super().__init__(timeout=None)
@@ -18,11 +18,11 @@ class GitHubButton(nextcord.ui.View): ## Format from nextcord examples on GitHub
 
 
 
-class AcceptRules(nextcord.ui.View):
+class AcceptRulesView(nextcord.ui.View):
     def __init__(self):
         super().__init__(timeout=None)
 
-    VIEW_NAME = 'AcceptRules'
+    VIEW_NAME = 'AcceptRulesView'
 
     async def alter_role(self, button: nextcord.ui.Button, interaction: Interaction):
         role_id = int(button.custom_id.split(":")[-1])
@@ -34,7 +34,7 @@ class AcceptRules(nextcord.ui.View):
             await interaction.user.add_roles(role)
             try:
                 await interaction.response.send_message(f'Gave you the **{role.name}** role!', ephemeral=True, delete_after=15)
-            except Exception:
+            except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
         # If user has the role
         else:
@@ -47,11 +47,11 @@ class AcceptRules(nextcord.ui.View):
     
 
 
-class Pronouns(nextcord.ui.View):
+class PronounsView(nextcord.ui.View):
     def __init__(self):
         super().__init__(timeout=None)
 
-    VIEW_NAME = 'Pronouns'
+    VIEW_NAME = 'PronounsView'
 
     async def alter_role(self, button: nextcord.ui.Button, interaction: Interaction):
         role_id = int(button.custom_id.split(":")[-1])

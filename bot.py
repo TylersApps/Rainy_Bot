@@ -1,9 +1,11 @@
 import nextcord
 import os
 from nextcord.ext import commands
+
+# From my 
 from colors import RES, GR
 from config import TOKEN
-from buttons import AcceptRules, Pronouns
+from buttons import AcceptRulesView, PronounsView
 
 
 
@@ -14,8 +16,8 @@ bot = commands.Bot(command_prefix="~", intents=nextcord.Intents.all() )
 @bot.event
 async def on_ready():
     print(f'\n{GR}[Logged in as {bot.user}]{RES}')
-    bot.add_view(Pronouns())
-    bot.add_view(AcceptRules())
+    bot.add_view(PronounsView())
+    bot.add_view(AcceptRulesView())
 
 for fn in os.listdir(os.path.join(os.getcwd(), 'cogs')):
     if fn.endswith('.py') and not fn.startswith('__init__'):

@@ -1,9 +1,10 @@
 import nextcord
 from nextcord.ext import commands
 from nextcord import Interaction, SlashOption
+from textwrap import dedent
 from config import reddit, TEST_GUILD_IDS
 from embeds import ERROR_TEMPLATE, EMBED_TEMPLATE
-from colors import BRAND_COLOR, RES, CY, YW, RD, GR
+from colors import RES, CY, YW, RD, GR
 from error_messages import MISSING_PERMISSIONS
 
 
@@ -33,7 +34,7 @@ class Reddit(commands.Cog):
 
             try:
                 await interaction.followup.send(embed=error_embed)
-            except Exception:
+            except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
 
             print(f"{RD}[INVALID]: r/{subreddit_name} doesn't exist or is banned{RES} from Reddit.")
@@ -51,10 +52,27 @@ class Reddit(commands.Cog):
 
             try:
                 await interaction.followup.send(embed=error_embed)
-            except Exception:
+            except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
             
             print(f"{RD}[UNSUPPORTED]: r/{subreddit} doesn't allow grabbing random posts or doesn't have any posts.{RES}")
+            return
+
+        # If submission is NSFW and channel is not, send error embed.
+        if (not interaction.channel.is_nsfw()) and (submission.over_18):
+            error_embed = ERROR_TEMPLATE.copy()
+            error_embed.title = "Can't send that here."
+            error_embed.description = dedent("\
+                **That post is marked as NSFW.**\n\
+                if that is a NSFW subreddit, use a channel marked as NSFW.\n\
+                If that subreddit isn't NSFW, try that command again.")
+            
+            try:
+                await interaction.followup.send(embed=error_embed)
+            except nextcord.Forbidden:
+                print(MISSING_PERMISSIONS)
+
+            print(f'{RD}[NSFW MISMATCH]: Submission is NSFW and channel is not.{RES}')
             return
 
 
@@ -83,7 +101,7 @@ class Reddit(commands.Cog):
         # Send embed and confirmation message
         try:
             await interaction.followup.send(embed=embed)
-        except Exception:
+        except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
 
         print(f'Sent post from {YW}{submission.subreddit}{RES}: {submission.title}')
