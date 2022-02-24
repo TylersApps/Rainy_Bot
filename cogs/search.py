@@ -31,7 +31,7 @@ class Search(commands.Cog):
 
             try:
                 await interaction.response.send_message(embed=error_embed)
-            except Exception:
+            except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
 
             print(f'{RD}[ERROR]: {ex}{RES}')
@@ -46,7 +46,7 @@ class Search(commands.Cog):
 
             try:
                 await interaction.response.send_message(embed=error_embed)
-            except Exception:
+            except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
             
             print(f'{RD}[INVALID]: Can\'t find "{word}" in dictionary.{RES}')
@@ -76,7 +76,7 @@ class Search(commands.Cog):
         # Send embed
         try:
             await interaction.response.send_message(embed=embed)
-        except Exception:
+        except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
         
         # Send confirmation message
@@ -89,7 +89,7 @@ class Search(commands.Cog):
         """Define a word or term with Urban Dictionary"""
         try:
             await interaction.response.send_message(embed=UPCOMING_EMBED)
-        except Exception:
+        except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
 
         print(f'{RD}[NOT SUPPORTED]: Urban command not supported yet.{RES}')

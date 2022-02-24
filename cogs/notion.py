@@ -17,7 +17,7 @@ class Notion(commands.Cog):
         """Allow user to edit of notion databases that the user has access to"""
         try:
             await interaction.response.send_message(embed=UPCOMING_EMBED)
-        except Exception:
+        except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
                 
         print(f'{RD}[NOT SUPPORTED]: Notion command not supported yet.{RES}')
