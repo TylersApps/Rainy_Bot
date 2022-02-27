@@ -153,15 +153,16 @@ class Basic(commands.Cog):
 
         
         embed = EMBED_TEMPLATE.copy()
-        embed.title = 'What are your PronounsView?'
+        embed.title = 'What are your pronouns?'
         embed.description = 'Use the buttons below to select what PronounsView you use.'
 
         try:
             await interaction.response.send_message('Sending message...', ephemeral=True, delete_after=30)
-            await interaction.response.send_message(embed=embed, view=PronounsView())
-            print(f'Sent {YW}Pronoun Menu{RES}!')
+            await interaction.channel.send(embed=embed, view=PronounsView())
         except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
+
+        print(f'Sent {YW}Pronouns Menu{RES}!')
 
     
 
@@ -220,6 +221,8 @@ class Basic(commands.Cog):
             await interaction.channel.send(embed=embed, view=AcceptRulesView())
         except Exception as ex:
             print(f'{MISSING_PERMISSIONS}\n{ex}')
+
+        print(f'Sent {YW}Rules{RES}!')
 
 
     

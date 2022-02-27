@@ -1,4 +1,4 @@
-rainy_bot_icon.png
+*.png
 config.py
 __pycache__
 *.pyc
