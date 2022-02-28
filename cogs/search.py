@@ -98,7 +98,7 @@ class Search(commands.Cog):
         
         try:
             first_def = defs_list[0]
-            print(defs_list[0], type(defs_list[0]))
+            # print(defs_list[0], type(defs_list[0]))
         except Exception: # Send error embed if the phrase isn't found
             try:
                 await interaction.response.send_message(embed=WORD_NOT_FOUND_EMBED)
