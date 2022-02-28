@@ -11,9 +11,10 @@ Rainy Bot is a multi-use Discord bot that I use in my servers. It has several fu
 - `/define <word>` defines the word passed in using the [Free Dictionary API](https://dictionaryapi.dev/).
 - `/pronouns` sends an embed with buttons to set pronouns [Admin Only]
 - `/rules` sends rules message to channel [Owner Only]
+- `/urban <word>` defines the word with Urban Dictionary
 
 ### Planned
-- `/urban <word>` defines the word with Urban Dictionary
+- `/dms` sends an embed with buttons to set DM permissions to DMs Open, DMs Closed, or Ask to DM
 
 
 ## Built With
@@ -21,6 +22,7 @@ Rainy Bot is a multi-use Discord bot that I use in my servers. It has several fu
 - [Async PRAW](https://asyncpraw.readthedocs.io/en/stable/code_overview/models/subreddit.html) - Asynchronous Reddit API wrapper
 - [Colorama](https://pypi.org/project/colorama/) - Colorful console outputs
 - [AIOHTTP](https://docs.aiohttp.org/en/stable/) - Asynchronous HTTP Client/Server
+- [udpy](https://pypi.org/project/udpy/) - Urban Dictionary API Wrapper
 
 
 ## Contributors
