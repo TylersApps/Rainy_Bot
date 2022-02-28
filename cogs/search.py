@@ -93,12 +93,12 @@ class Search(commands.Cog):
         
         # Get list of definitions from Urban Dictionary API
         urban = UrbanClient()
-        phrase = phrase.lower()
         defs_list = urban.get_definition(phrase)
 
-
+        
         try:
             first_def = defs_list[0]
+            print(defs_list[0], type(defs_list[0]))
         except Exception: # Send error embed if the phrase isn't found
             try:
                 await interaction.response.send_message(embed=WORD_NOT_FOUND_EMBED)
@@ -109,10 +109,15 @@ class Search(commands.Cog):
             
         
 
+        # Jerry rig url parameters
+        search_str = '+'.join(
+            i for i in phrase.strip().split(' ')
+        )
+
         # Create embed
         embed = EMBED_TEMPLATE.copy()
-        embed.title = f'{phrase[0].upper()}{phrase[1:]}'
-        embed.url = f'https://www.urbandictionary.com/define.php?term={phrase}'
+        embed.title = first_def.word
+        embed.url = f'https://www.urbandictionary.com/define.php?term={search_str}'
         embed.add_field(name='Definition', value=f'{first_def.definition}', inline=False)
         embed.add_field(name='Example', value=f'{first_def.example}', inline=False)
         embed.set_thumbnail(
