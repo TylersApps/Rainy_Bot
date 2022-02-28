@@ -95,14 +95,11 @@ class Search(commands.Cog):
         urban = UrbanClient()
         phrase = phrase.lower()
         defs_list = urban.get_definition(phrase)
-        
-        for d in defs_list[:3]:
-            print(d.definition)
 
 
         try:
             first_def = defs_list[0]
-        except: # Send error embed if the phrase isn't found
+        except Exception: # Send error embed if the phrase isn't found
             try:
                 await interaction.response.send_message(embed=WORD_NOT_FOUND_EMBED)
                 print(WORD_NOT_FOUND_MSG)
