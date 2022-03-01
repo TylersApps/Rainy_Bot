@@ -89,7 +89,7 @@ class Search(commands.Cog):
     @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description='Command not yet supported')
     async def urban(self, interaction: Interaction, phrase: str = SlashOption(description="Word to define")):
         """Sends the definition of a word from Urban Dictionary"""
-        print(print(f'{CY}Urban{RES} command used!'))
+        print(f'{CY}Urban{RES} command used!')
         
         # Get list of definitions from Urban Dictionary API
         urban = UrbanClient()
@@ -98,7 +98,7 @@ class Search(commands.Cog):
         
         try:
             first_def = defs_list[0]
-            # print(defs_list[0], type(defs_list[0]))
+            print(defs_list[0], type(defs_list[0]))
         except Exception: # Send error embed if the phrase isn't found
             try:
                 await interaction.response.send_message(embed=WORD_NOT_FOUND_EMBED)
@@ -131,7 +131,7 @@ class Search(commands.Cog):
             print(MISSING_PERMISSIONS)
 
 
-        print(f'Sent definition of {YW}{phrase}{RES}!')
+        print(f'Sent definition of {YW}{first_def.word}{RES}!')
 
 
 

@@ -154,7 +154,7 @@ class Basic(commands.Cog):
         
         embed = EMBED_TEMPLATE.copy()
         embed.title = 'What are your pronouns?'
-        embed.description = 'Use the buttons below to select what PronounsView you use.'
+        embed.description = 'Use the buttons below to select what pronouns you use.'
 
         try:
             await interaction.response.send_message('Sending message...', ephemeral=True, delete_after=30)

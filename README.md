@@ -14,7 +14,8 @@ Rainy Bot is a multi-use Discord bot that I use in my servers. It has several fu
 - `/urban <word>` defines the word with Urban Dictionary
 
 ### Planned
-- `/dms` sends an embed with buttons to set DM permissions to DMs Open, DMs Closed, or Ask to DM
+- `/dms` sends an embed with buttons to set DM permissions to DMs Open, DMs Closed, or Ask to DM [Owner Only]
+- `/unsplash <search_term>` returns a random post from unsplash OR a random post from search
 
 
 ## Built With
