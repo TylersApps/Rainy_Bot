@@ -18,6 +18,31 @@ Rainy Bot is a multi-use Discord bot that I use in my servers. It has several fu
 - `/unsplash <search_term>` returns a random post from unsplash OR a random post from search
 
 
+## Setting Up the bot
+
+### Permissions
+The bot needs the following permissions to function properly:
+- Manage Roles
+- Read Messages/View Channels
+- Send Messages
+- Embed Links
+- Mention Everyone
+- Use External Emojis
+- Move Members
+
+### What the Bot Does
+When the bot joins a server, it will create the following roles:
+- `@DMs Open`
+- `@DMs Closed`
+- `@Ask to DM`
+- `@He/Him`
+- `@She/Her`
+- `@They/Them`
+- `@Other Pronouns`
+
+Please do not change the names of these roles as certain functions of the bots will stop working. You may change everything else about the roles (color, position, etc.) as long as they are below the `Rainy` role in the roles list and keep the original name. If you do change the name, you can always change it back, just keep the capitalization the same as above.
+
+
 ## Built With
 - [Nextcord](https://nextcord.readthedocs.io/) - Discord API wrapper
 - [Async PRAW](https://asyncpraw.readthedocs.io/en/stable/code_overview/models/subreddit.html) - Asynchronous Reddit API wrapper
