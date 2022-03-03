@@ -40,7 +40,7 @@ When the bot joins a server, it will create the following roles:
 - `@They/Them`
 - `@Other Pronouns`
 
-Please do not change the **names** of these roles as certain functions of the bots will stop working. You may change everything else about the roles (color, position, etc.) as long as they are below the `Rainy` role in the roles list and keep the original name. If you do change the name, you can always change it back, just keep the capitalization the same as above.
+Please do not change the <ins>names</ins> of these roles as certain functions of the bots will stop working. You may change everything else about the roles (color, position, etc.) as long as they are below the `Rainy` role in the roles list and keep the original name. If you do change the name, you can always change it back, just keep the capitalization the same as above.
 
 
 ## Built With
