@@ -12,9 +12,9 @@ Rainy Bot is a multi-use Discord bot that I use in my servers. It has several fu
 - `/pronouns` sends an embed with buttons to set pronouns [Admin Only]
 - `/rules` sends rules message to channel [Owner Only]
 - `/urban <word>` defines the word with Urban Dictionary
+- `/dms` sends an embed with buttons to set DM permissions to DMs Open, DMs Closed, or Ask to DM [Owner Only]
 
 ### Planned
-- `/dms` sends an embed with buttons to set DM permissions to DMs Open, DMs Closed, or Ask to DM [Owner Only]
 - `/unsplash <search_term>` returns a random post from unsplash OR a random post from search
 
 
