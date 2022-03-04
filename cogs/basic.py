@@ -99,7 +99,7 @@ class Basic(commands.Cog):
             return
 
         # Send error if sides or rolls is < 2 or > 100
-        if sides < 2 or rolls < 2 or sides > 100 or dice > 100:
+        if not (2 < rolls < 101 or 2 < sides < 101):
             error_embed = ERROR_TEMPLATE.copy()
             error_embed.title = 'Invalid input'
             error_embed.description = 'Each N in NdN must be a non-negative, non-zero integer 2-100.'
