@@ -5,7 +5,7 @@ from textwrap import dedent
 from config import reddit, TEST_GUILD_IDS
 from embeds import ERROR_TEMPLATE, EMBED_TEMPLATE
 from colors import RES, CY, YW, RD, GR
-from error_messages import MISSING_PERMISSIONS
+from error_messages import MISSING_PERMISSIONS, NSFW_MISMATCH
 
 
 
@@ -13,7 +13,7 @@ class Reddit(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description='Get a random post from a subreddit')
+    @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description='Get a random post from a subreddit!')
     async def randompost(self, interaction: Interaction, subreddit_name: str = SlashOption(description="Subreddit Choice")):
         """Send a random post from specified subreddit as an embed"""
         await interaction.response.defer()
@@ -64,7 +64,7 @@ class Reddit(commands.Cog):
             error_embed.title = "Can't send that here."
             error_embed.description = dedent("\
                 **That post is marked as NSFW.**\n\
-                if that is a NSFW subreddit, use a channel marked as NSFW.\n\
+                If that is a NSFW subreddit, use a channel marked as NSFW.\n\
                 If that subreddit isn't NSFW, try that command again.")
             
             try:
@@ -72,20 +72,20 @@ class Reddit(commands.Cog):
             except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
 
-            print(f'{RD}[NSFW MISMATCH]: Submission is NSFW and channel is not.{RES}')
+            print(NSFW_MISMATCH)
             return
 
 
         # Initialize title and shorten to max 253 characters
         title = submission.title
         if len(title) > 250:
-            title = title[:250] + " ..."
+            title = title[:250] + ' ...'
         
         # Initialize post_body and shorten to max 500 characters
         post_body = submission.selftext
         if len(post_body) > 500:
             post_body = post_body[:497]
-            post_body += " ..." 
+            post_body += ' ...' 
 
 
         # Customize embed
