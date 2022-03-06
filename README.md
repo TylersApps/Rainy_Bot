@@ -18,7 +18,7 @@ Rainy Bot is a multi-use Discord bot that I use in my servers. It has several fu
 - `/unsplash <search_term>` returns a random post from unsplash OR a random post from search
 
 
-## Setting Up the bot
+## Setting Up the Bot
 
 ### Permissions
 The bot needs the following permissions to function properly:
@@ -42,6 +42,14 @@ When the bot joins a server, it will create the following roles:
 
 Please do not change the <ins>names</ins> of these roles as certain functions of the bots will stop working. You may change everything else about the roles (color, position, etc.) as long as they are below the `Rainy` role in the roles list and keep the original name. If you do change the name, you can always change it back, just keep the capitalization the same as above.
 
+### Scopes
+The bot needs the following scopes in the developer portal:
+- bot
+- applications.commands
+
+### Intents
+The bot's code adds all intents manually but to make it as painless as possible, enable both 
+
 
 ## Built With
 - [Nextcord](https://nextcord.readthedocs.io/) - Discord API wrapper
@@ -61,3 +69,18 @@ This project is licensed under the **MIT License** - see the [LICENSE.md](LICENS
 
 ## Acknowledgements
 Inspired by Milesnocte's [WoodyBot](https://github.com/Milesnocte/WoodyBot)
+
+
+## Developing your own
+If you cloned this repo and are developing your own or using it to test features, see below:
+
+### Scopes
+The bot needs the following scopes in the developer portal:
+- bot
+- applications.commands
+
+### Intents
+The bot's code adds all intents manually but to make it as painless as possible, enable the following privileged gateway intents in the Bot screen:
+- Presence Intent
+- Server Members Intent
+- Message Content Intent
