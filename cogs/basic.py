@@ -262,7 +262,6 @@ class Basic(commands.Cog):
             print(f'Sent {YW}DMs{RES} menu!')
         except nextcord.Forbidden as ex:
             print(MISSING_PERMISSIONS)
-            print(ex)
 
         
     
