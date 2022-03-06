@@ -4,7 +4,7 @@ from nextcord.ext import commands
 
 # From my 
 from colors import RES, GR, YW, WHITE
-from config import TOKEN
+from config import BOT_TOKEN, TEST_TOKEN
 from buttons import AcceptRulesView, DMRolesView, PronounsView
 
 
@@ -87,4 +87,4 @@ async def reload(ctx, extension):
 
 
 
-bot.run(TOKEN)
+bot.run(BOT_TOKEN)
