@@ -5,7 +5,7 @@ from nextcord import Interaction, SlashOption
 from udpy import UrbanClient
 
 from config import TEST_GUILD_IDS
-from colors import BRAND_COLOR, RES, RD, YW, CY, GR
+from colors import RES, RD, YW, CY, GR
 from embeds import ERROR_TEMPLATE, EMBED_TEMPLATE, INVALID_INPUT_EMBED, WORD_NOT_FOUND_EMBED
 from error_messages import MISSING_PERMISSIONS, WORD_NOT_FOUND_MSG
 
@@ -14,7 +14,7 @@ class Search(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description='Get the definition of a word!')
+    @nextcord.slash_command(description='Get the definition of a word!')
     async def define(self, interaction: Interaction, word: str = SlashOption(description="Word to define")):
         """Sends the definition of the specified word"""
         print(f'{CY}Define{RES} command used!')
@@ -86,7 +86,7 @@ class Search(commands.Cog):
 
 
     
-    @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description='Define a phrase with Urban Dictionary!')
+    @nextcord.slash_command(description='Define a phrase with Urban Dictionary!')
     async def urban(self, interaction: Interaction, phrase: str = SlashOption(description="Word to define")):
         """Sends the definition of a word from Urban Dictionary"""
         print(f'{CY}Urban{RES} command used!')

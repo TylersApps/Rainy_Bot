@@ -16,7 +16,7 @@ class Basic(commands.Cog):
         self.bot = bot
     
 
-    @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description="Get a list of Rainy Bot's commands!")
+    @nextcord.slash_command(description="Get a list of Rainy Bot's commands!")
     async def help(self, interaction: Interaction):
         """Sends a list of available commands."""
         print(f'{CY}Help{RES} command used!')
@@ -42,7 +42,7 @@ class Basic(commands.Cog):
             print(f'{RD}[FORBIDDEN]: Bot missing permissions to send messages.{RES}')
 
 
-    @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description="Get a list of Rainy Bot's admin commands!")
+    @nextcord.slash_command(description="Get a list of Rainy Bot's admin commands!")
     async def adminhelp(self, interaction: Interaction):
         """Sends a list of admin commands."""
         print(f'{CY}AdminHelp{RES} command used!')
@@ -63,7 +63,6 @@ class Basic(commands.Cog):
         embed.description = dedent('\
                 `/adminhelp`\nGet a list of admin-specific commands.\n\n\
                 `/pronouns`\nSend an embed with buttons to set PronounsView.\n\n\
-                `/rules`\nSend the rules embed.\n\n\
                 `/dms`\n Send the DM access roles menu.')
 
         embed.set_thumbnail(url=BOT_ICON_URL)    
@@ -75,7 +74,7 @@ class Basic(commands.Cog):
             print(f'{RD}[FORBIDDEN]: Bot missing permissions to send messages.{RES}')
 
 
-    @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description='Roll a specific amount of dice with a specific amount of sides!')
+    @nextcord.slash_command(description='Roll a specific amount of dice with a specific amount of sides!')
     async def roll(self, interaction: Interaction, dice: str=SlashOption(description="Specified dice")):
         """Rolls die/dice with NdN format"""
         print(f'{CY}Roll{RES} command used!')
@@ -137,7 +136,7 @@ class Basic(commands.Cog):
         print(f'Rolled {YW}{dice_trimmed}{RES} for a total of {YW}{total}{RES}!')
 
 
-    @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description='Send an embed with buttons to set pronouns roles!')
+    @nextcord.slash_command(description='Send an embed with buttons to set pronouns roles!')
     async def pronouns(self, interaction: Interaction):
         """Sends a message with buttons to allow users to get a role with their PronounsView"""
         print(f'{CY}PronounsView{RES} command used!')
@@ -230,7 +229,7 @@ class Basic(commands.Cog):
         print(f'Sent {YW}Rules{RES}!')
 
 
-    @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description='Send an embed with buttons to set DM access preference role!')
+    @nextcord.slash_command(description='Send an embed with buttons to set DM access preference role!')
     async def dms(self, interaction: Interaction):
         """Sends a message with buttons to allow users to get a role with their DMs access preferences"""
         print(f'{CY}DMs{RES} command used!')

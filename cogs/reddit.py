@@ -13,7 +13,7 @@ class Reddit(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    @nextcord.slash_command(guild_ids=TEST_GUILD_IDS, description='Get a random post from a subreddit!')
+    @nextcord.slash_command(description='Get a random post from a subreddit!')
     async def randompost(self, interaction: Interaction, subreddit_name: str = SlashOption(description="Subreddit Choice")):
         """Send a random post from specified subreddit as an embed"""
         await interaction.response.defer()
