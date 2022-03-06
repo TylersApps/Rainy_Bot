@@ -179,6 +179,7 @@ class Basic(commands.Cog):
             try:
                 await interaction.response.send_message(embed=INVALID_PERMISSIONS, ephemeral=True)
                 print(f'{RD}[INVALID PERMISSIONS]: {interaction.user.name} does not have permission to use Rules command.{RES}')
+                return
             except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
                 return
@@ -222,8 +223,9 @@ class Basic(commands.Cog):
         try:
             await interaction.response.send_message('Message sent!', ephemeral=True, delete_after=1)
             await interaction.channel.send(embed=embed, view=AcceptRulesView())
-        except Exception as ex:
+        except nextcord.Forbidden as ex:
             print(f'{MISSING_PERMISSIONS}\n{ex}')
+            return
 
         print(f'Sent {YW}Rules{RES}!')
 
