@@ -19,7 +19,7 @@ class Search(commands.Cog):
         """Sends the definition of the specified word"""
         print(f'{CY}Define{RES} command used!')
 
-        api_url = f"http://api.dictionaryapi.dev/api/v2/entries/en/{word}"
+        api_url = f'http://api.dictionaryapi.dev/api/v2/entries/en/{word}'
 
         # Get the json data for the specified word
         try:
@@ -32,7 +32,7 @@ class Search(commands.Cog):
             error_embed.description = f'API Error. Please contact developer.'
 
             try:
-                await interaction.response.send_message(embed=error_embed)
+                await interaction.response.send_message(embed=error_embed, ephemeral=True)
             except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
 
@@ -43,11 +43,11 @@ class Search(commands.Cog):
             content = data[0]['meanings']
         except KeyError: # Send error embed if the word isn't found
             error_embed = ERROR_TEMPLATE.copy()
-            error_embed.title = "Word not found"
+            error_embed.title = 'Word not found'
             error_embed.description = f'Can\'t find "{word}" in dictionary'
 
             try:
-                await interaction.response.send_message(embed=error_embed)
+                await interaction.response.send_message(embed=error_embed, ephemeral=True)
             except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
             
@@ -57,7 +57,7 @@ class Search(commands.Cog):
         
         # Customize embed with title and thumbnail   
         embed = EMBED_TEMPLATE.copy()
-        embed.title=f'"{word.lower().capitalize()}"'
+        embed.title = word.lower().capitalize()
         embed.set_thumbnail(
             url='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/285/open-book_1f4d6.png'
         )

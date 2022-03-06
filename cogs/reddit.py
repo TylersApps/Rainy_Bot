@@ -33,7 +33,7 @@ class Reddit(commands.Cog):
             error_embed.description=f"r/{subreddit_name} doesn't exist or is banned from Reddit."
 
             try:
-                await interaction.followup.send(embed=error_embed)
+                await interaction.followup.send(embed=error_embed, ephemeral=True)
             except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
 
@@ -51,7 +51,7 @@ class Reddit(commands.Cog):
             error_embed.description=f"r/{subreddit} doesn't allow grabbing random posts or doesn't have any posts."
 
             try:
-                await interaction.followup.send(embed=error_embed)
+                await interaction.followup.send(embed=error_embed, ephemeral=True)
             except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
             
@@ -68,7 +68,7 @@ class Reddit(commands.Cog):
                 If that subreddit isn't NSFW, try that command again.")
             
             try:
-                await interaction.followup.send(embed=error_embed)
+                await interaction.followup.send(embed=error_embed, ephemeral=True)
             except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
 

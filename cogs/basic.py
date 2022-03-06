@@ -53,7 +53,7 @@ class Basic(commands.Cog):
             except Exception:
                 print(f'{RD}[FORBIDDEN]: Bot missing permissions to send messages.{RES}')
             
-            print(f'{RD}[INVALID PERMISSIONS]: User does not have permission to use AdminHelp command.{RES}')
+            print(f'{RD}[INVALID PERMISSIONS]: {interaction.user.name} does not have permission to use AdminHelp command.{RES}')
             return
 
         embed = EMBED_TEMPLATE.copy()
@@ -91,7 +91,7 @@ class Basic(commands.Cog):
             error_embed.title = 'Invalid input format'
             error_embed.description = '`dice` input should be formatted like **NdN**'
             try:
-                await interaction.response.send_message(embed=error_embed)
+                await interaction.response.send_message(embed=error_embed, ephemeral=True)
             except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
             
@@ -102,9 +102,10 @@ class Basic(commands.Cog):
         if not (2 < rolls < 101 or 2 < sides < 101):
             error_embed = ERROR_TEMPLATE.copy()
             error_embed.title = 'Invalid input'
-            error_embed.description = 'Each N in NdN must be a non-negative, non-zero integer 2-100.'
+            error_embed.description = dedent('First N in NdN must be a non-negative, non-zero integer 1-100.\n\
+                                              Second N in NdN must be non-negative, non-zero integer 2-100')
             try: 
-                await interaction.response.send_message(embed=error_embed)
+                await interaction.response.send_message(embed=error_embed, ephemeral=True)
             except Exception:
                 print(f'{RD}[FORBIDDEN]: Bot missing permissions to send messages.{RES}')
 
@@ -128,8 +129,10 @@ class Basic(commands.Cog):
         # Send embed and confirmation output
         try:
             await interaction.response.send_message(embed=embed)
+            if total == 69:
+                await interaction.channel.send("Nice")
         except nextcord.Forbidden:
-                print(MISSING_PERMISSIONS)
+            print(MISSING_PERMISSIONS)
 
         print(f'Rolled {YW}{dice_trimmed}{RES} for a total of {YW}{total}{RES}!')
 
@@ -145,11 +148,11 @@ class Basic(commands.Cog):
             error_embed.title = 'Invalid permissions'
             error_embed.description = "You don't have the right permissions to use that command."
             try:
-                await interaction.response.send_message(embed=error_embed)
+                await interaction.response.send_message(embed=error_embed, ephemeral=True)
             except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
             
-            print(f'{RD}[INVALID PERMISSIONS]: User does not have permission to use PronounsView command.{RES}')
+            print(f'{RD}[INVALID PERMISSIONS]: {interaction.user.name} does not have permission to use PronounsView command.{RES}')
             return
 
         
@@ -175,7 +178,7 @@ class Basic(commands.Cog):
         if not await self.bot.is_owner(interaction.user): 
             try:
                 await interaction.response.send_message(embed=INVALID_PERMISSIONS, ephemeral=True)
-                print(f'{RD}[INVALID PERMISSIONS]: User does not have permission to use Rules command.{RES}')
+                print(f'{RD}[INVALID PERMISSIONS]: {interaction.user.name} does not have permission to use Rules command.{RES}')
             except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
                 return
@@ -236,11 +239,11 @@ class Basic(commands.Cog):
             error_embed.title = 'Invalid permissions'
             error_embed.description = "You don't have the right permissions to use that command."
             try:
-                await interaction.response.send_message(embed=error_embed)
+                await interaction.response.send_message(embed=error_embed, ephemeral=True)
             except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
             
-            print(f'{RD}[INVALID PERMISSIONS]: User does not have permission to use DMs command.{RES}')
+            print(f'{RD}[INVALID PERMISSIONS]: {interaction.user.name} does not have permission to use DMs command.{RES}')
             return
 
         privacy_article = 'https://support.discord.com/hc/en-us/articles/217916488-Blocking-Privacy-Settings-'
