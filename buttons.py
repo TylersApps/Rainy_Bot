@@ -68,8 +68,7 @@ class DMRolesView(nextcord.ui.View):
             try:
                 await interaction.user.add_roles(role)
                 await interaction.response.send_message(f'Gave you the **{role.name}** role!', ephemeral=True, delete_after=15)
-                
-                print(f'Gave {YW}{interaction.user}{RES} the {YW}{role.name}{RES} role!')
+                print(f'Gave {YW}{role.name}{RES} role to {YW}{interaction.user}{RES}!')
             except Exception:
                 print(MISSING_PERMISSIONS)
 
@@ -110,7 +109,7 @@ class PronounsView(nextcord.ui.View):
             await interaction.user.add_roles(role)
             try:
                 await interaction.response.send_message(f'Gave you the **{role.name}** role!', ephemeral=True, delete_after=15)
-                print(f'Gave {YW}{interaction.user}{RES} the {YW}{role.name}{RES} role!')
+                print(f'Gave {YW}{role.name}{RES} role to {YW}{interaction.user}{RES}!')
             except Exception:
                 print(MISSING_PERMISSIONS)
 
