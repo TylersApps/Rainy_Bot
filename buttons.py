@@ -2,6 +2,7 @@ import nextcord
 from nextcord import Interaction
 from emojis import CHECK
 from error_messages import MISSING_PERMISSIONS
+from colors import RES, YW
 
 
 
@@ -29,6 +30,7 @@ class AcceptRulesView(nextcord.ui.View):
             await interaction.user.add_roles(role)
             try:
                 await interaction.response.send_message(f'Thank you for accepting the rules! You should be able to access the server now.', ephemeral=True, delete_after=10)
+                print(f'{YW}{interaction.user}{RES} accepted the rules!')
             except nextcord.Forbidden:
                 print(MISSING_PERMISSIONS)
         # If user has the role
@@ -58,6 +60,7 @@ class DMRolesView(nextcord.ui.View):
             try:
                 await interaction.user.remove_roles(role)
                 await interaction.response.send_message(f'Your **{role.name}** role was removed.', ephemeral=True, delete_after=15)
+                print(f'Removed {YW}{role.name}{RES} role from {YW}{interaction.user}{RES}!')
             except Exception:
                 print(MISSING_PERMISSIONS)
         # If user does not have the role
@@ -65,6 +68,8 @@ class DMRolesView(nextcord.ui.View):
             try:
                 await interaction.user.add_roles(role)
                 await interaction.response.send_message(f'Gave you the **{role.name}** role!', ephemeral=True, delete_after=15)
+                
+                print(f'Gave {YW}{interaction.user}{RES} the {YW}{role.name}{RES} role!')
             except Exception:
                 print(MISSING_PERMISSIONS)
 
@@ -97,6 +102,7 @@ class PronounsView(nextcord.ui.View):
             try:
                 await interaction.user.remove_roles(role)
                 await interaction.response.send_message(f'Your **{role.name}** role was removed.', ephemeral=True, delete_after=15)
+                print(f'Removed {YW}{role.name}{RES} role from {YW}{interaction.user}{RES}!')
             except Exception:
                 print(MISSING_PERMISSIONS)
         # If user does not have the role
@@ -104,6 +110,7 @@ class PronounsView(nextcord.ui.View):
             await interaction.user.add_roles(role)
             try:
                 await interaction.response.send_message(f'Gave you the **{role.name}** role!', ephemeral=True, delete_after=15)
+                print(f'Gave {YW}{interaction.user}{RES} the {YW}{role.name}{RES} role!')
             except Exception:
                 print(MISSING_PERMISSIONS)
 

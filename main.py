@@ -28,15 +28,15 @@ async def on_guild_join(guild):
     print(f'{GR}Joined Guild:{RES} {guild.name}!')
     # Create DM access roles if the guild doesn't have them already.
     if not nextcord.utils.get(guild.roles, name='DMs Open'):
-        await guild.create_role(name='DMs Open', colour=nextcord.Colour.green())
+        await guild.create_role(name='DMs Open')
         print(f'Created {YW}DMs Open{RES} role!')
 
     if not nextcord.utils.get(guild.roles, name='DMs Closed'):
-        await guild.create_role(name='DMs Closed', colour=nextcord.Colour.red())
+        await guild.create_role(name='DMs Closed')
         print(f'Created {YW}DMs Closed{RES} role!')
     
     if not nextcord.utils.get(guild.roles, name='Ask to DM'):
-        await guild.create_role(name='Ask to DM', colour=nextcord.Colour.blue())
+        await guild.create_role(name='Ask to DM')
         print(f'Created {YW}Ask to DM{RES} role!')
 
     # Create pronouns roles if the guild doesn't have them already.
